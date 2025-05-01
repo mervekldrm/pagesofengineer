@@ -1,13 +1,13 @@
 {
   "files": {
-    "main.css": "/pagesofengineer/static/css/main.55bc3614.css",
-    "main.js": "/pagesofengineer/static/js/main.0e6aa320.js",
-    "index.html": "/pagesofengineer/index.html",
-    "main.55bc3614.css.map": "/pagesofengineer/static/css/main.55bc3614.css.map",
-    "main.0e6aa320.js.map": "/pagesofengineer/static/js/main.0e6aa320.js.map"
+    "main.css": "/static/css/main.0350aa1b.css",
+    "main.js": "/static/js/main.a0adc5da.js",
+    "index.html": "/index.html",
+    "main.0350aa1b.css.map": "/static/css/main.0350aa1b.css.map",
+    "main.a0adc5da.js.map": "/static/js/main.a0adc5da.js.map"
   },
   "entrypoints": [
-    "static/css/main.55bc3614.css",
-    "static/js/main.0e6aa320.js"
+    "static/css/main.0350aa1b.css",
+    "static/js/main.a0adc5da.js"
   ]
 }
