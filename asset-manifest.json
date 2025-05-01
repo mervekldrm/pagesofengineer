@@ -1,0 +1,13 @@
+{
+  "files": {
+    "main.css": "/pagesofengineer/static/css/main.55bc3614.css",
+    "main.js": "/pagesofengineer/static/js/main.0e6aa320.js",
+    "index.html": "/pagesofengineer/index.html",
+    "main.55bc3614.css.map": "/pagesofengineer/static/css/main.55bc3614.css.map",
+    "main.0e6aa320.js.map": "/pagesofengineer/static/js/main.0e6aa320.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.55bc3614.css",
+    "static/js/main.0e6aa320.js"
+  ]
+}
