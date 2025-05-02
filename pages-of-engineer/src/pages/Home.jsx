@@ -1,6 +1,16 @@
 import { Link } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 
 const Home = () => {
+  const [projects, setProjects] = useState([]);
+
+  useEffect(() => {
+    // Projeleri backend'den al
+    axios.get('http://localhost:5000/api/projects')
+      .then(response => setProjects(response.data))
+      .catch(error => console.error("Error fetching projects: ", error));
+  }, []);
   return (
     <div className="min-h-screen font-sans bg-gradient-to-br from-skyblue via-background to-lilacSoft">
       {/* MAIN GRID */}

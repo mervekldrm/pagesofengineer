@@ -1,9 +1,110 @@
 <!DOCTYPE html>
-<html>
-  <head>
-    <meta http-equiv="refresh" content="0; url=/" />
-  </head>
-  <body>
-    <p>Yönlendiriliyorsunuz...</p>
-  </body>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>404 - Sayfa Bulunamadı</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      background-color: #282c34;
+      font-family: 'Arial', sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      flex-direction: column;
+      color: white;
+      text-align: center;
+      overflow: hidden;
+      animation: backgroundChange 5s infinite alternate;
+    }
+
+    /* Renk geçiş animasyonu */
+    @keyframes backgroundChange {
+      0% { background-color: #282c34; }
+      50% { background-color: #ffccff; }
+      100% { background-color: #3498db; }
+    }
+
+    /* Kaybolan Astronot */
+    .astronaut {
+      position: absolute;
+      animation: float 3s ease-in-out infinite;
+      bottom: 10%;
+      left: 50%;
+      transform: translateX(-50%);
+    }
+
+    @keyframes float {
+      0% { transform: translate(-50%, -20px); }
+      50% { transform: translate(-50%, 10px); }
+      100% { transform: translate(-50%, -20px); }
+    }
+
+    /* Zıplayan 404 yazısı */
+    h1 {
+      font-size: 4em;
+      font-weight: bold;
+      animation: bounce 1s infinite;
+      color: #ffcc00;
+    }
+
+    @keyframes bounce {
+      0% { transform: translateY(0); }
+      25% { transform: translateY(-10px); }
+      50% { transform: translateY(0); }
+      75% { transform: translateY(-10px); }
+      100% { transform: translateY(0); }
+    }
+
+    /* Eğlenceli metin animasyonu */
+    p {
+      font-size: 1.5em;
+      margin-top: 20px;
+      animation: textAppear 2s ease-out;
+    }
+
+    @keyframes textAppear {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Renkli spinner */
+    .spinner {
+      border: 8px solid #f3f3f3;
+      border-top: 8px solid #3498db;
+      border-radius: 50%;
+      width: 50px;
+      height: 50px;
+      animation: spin 1.5s linear infinite;
+      margin-top: 20px;
+    }
+
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+  </style>
+</head>
+<body>
+
+  <h1>404 - Sayfa Kayboldu!</h1>
+  <p>Hımm, bir hata oldu! Bir astronot kayboldu...</p>
+  <div class="spinner"></div>
+  <img style="height: 100px ;" src="images/astronot.png" alt="Astronaut" class="astronaut" />
+
+  <script>
+    // Ses efekti ekleme
+    var audio = new Audio('https://example.com/error-sound.mp3'); // Ses dosyasını buraya ekleyin
+    audio.play();
+
+    // Sayfa yönlendirme
+    setTimeout(function() {
+      window.location.href = "/";
+    }, 5000); // 5 saniye sonra yönlendirilecek
+  </script>
+
+</body>
 </html>
