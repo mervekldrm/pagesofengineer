@@ -7,6 +7,7 @@ import AdminLogin from './pages/AdminLogin';
 import Blog from './pages/Blog';
 import Projects from './pages/Projects';
 import AddProject from './pages/AddProject';
+import Contact from './pages/Contact';
 import './App.css';
 
 function App() {
@@ -22,6 +23,7 @@ function App() {
           <Route path="admin-login" element={<AdminLogin />} />
           <Route path="projects" element={<Projects />} /> 
           <Route path="add-project" element={<AddProject />} /> 
+          <Route path="contact" element={<Contact />} />
           {/* Diğer sayfalar buraya eklenecek */}
         </Route>
       </Routes>

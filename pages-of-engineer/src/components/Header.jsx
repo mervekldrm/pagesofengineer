@@ -12,11 +12,15 @@ const Header = () => {
 
         {/* Navigation */}
         <nav className="flex flex-wrap gap-4 text-blue-900 text-sm font-medium justify-center md:justify-end">
+          <Link to="/">Home</Link>
           <Link to="/about">About</Link>
+          {/*
           <Link to="/projects">Projects</Link>
           <Link to="/blog">Blog</Link>
           <Link to="/reading">Reading</Link>
-          <Link to="/contact">Contact</Link>
+          */}
+        <Link to="/contact">Contact</Link>
+
         </nav>
       </div>
     </header>
