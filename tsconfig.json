@@ -1,8 +1,0 @@
-{
-  // Use the installed package path so editors/tsserver can resolve it reliably
-  "extends": "./node_modules/astro/tsconfigs/base.json",
-  "compilerOptions": {
-    "jsx": "react-jsx",
-    "jsxImportSource": "react"
-  }
-}
