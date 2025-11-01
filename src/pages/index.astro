@@ -1,0 +1,19 @@
+---
+import ReactApp from '../react-app/App.jsx';
+const title = "Pages of Engineer (Astro)";
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{title}</title>
+  </head>
+  <body>
+    <!-- Mount the React SPA directly at the root. Use client:only along with client:load so the
+      React bundle (and react-router's BrowserRouter) is never evaluated during server-side
+      rendering — it only loads on the client. -->
+    <ReactApp client:load client:only="react" />
+  </body>
+</html>
