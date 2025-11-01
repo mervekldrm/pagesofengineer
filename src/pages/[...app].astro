@@ -1,0 +1,30 @@
+---
+import ReactApp from '../react-app/App.jsx';
+const title = 'Pages of Engineer — App';
+// Provide a minimal getStaticPaths so Astro's dynamic route validation passes in dev/build.
+// This returns a single path (root) — we still create dedicated static pages for known
+// client-only routes (e.g. /add-blog) so they don't 404. The dynamic route remains but
+// will only be generated for the root path here.
+export async function getStaticPaths() {
+  // For a catch-all route Astro expects route params to be a string/number or undefined.
+  // Return a single entry with `app` undefined so the dynamic route is valid but
+  // doesn't attempt to pre-render arbitrary client-only routes.
+  return [
+    { params: { app: undefined } }
+  ];
+}
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{title}</title>
+  </head>
+  <body>
+    <!-- Catch-all route: mount the React SPA client-side for any unmatched path
+         so react-router can handle client routes like /add-blog, /admin-login, etc. -->
+    <ReactApp client:load client:only="react" />
+  </body>
+</html>

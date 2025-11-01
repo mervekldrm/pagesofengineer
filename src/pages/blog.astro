@@ -1,0 +1,17 @@
+---
+import ReactApp from '../react-app/App.jsx';
+const title = 'Blog - Pages of Engineer';
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{title}</title>
+  </head>
+  <body>
+    <!-- Mount React SPA for /blog -->
+    <ReactApp client:load client:only="react" />
+  </body>
+</html>
