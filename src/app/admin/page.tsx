@@ -1,10 +1,11 @@
-import { isAuthenticated } from '@/lib/auth'
-import { getAllPosts } from '@/lib/posts'
-import { getAllProjects } from '@/lib/projects'
+import { isAuthenticated } from '../../lib/auth'
+import { getAllPosts } from '../../lib/posts'
+import { getAllProjects } from '../../lib/projects'
 import { redirect } from 'next/navigation'
 import Link from 'next/link'
 import styles from './page.module.css'
-import DeleteProjectButton from '@/components/admin/DeleteProjectButton'
+import DeleteProjectButton from '../../components/admin/DeleteProjectButton'
+import DeletePostButton from '../../components/admin/DeletePostButton'
 
 export const metadata = { title: 'Admin — Pages of Engineer' }
 export const dynamic = 'force-dynamic'
@@ -73,6 +74,7 @@ export default async function AdminPage() {
               <div className={styles.actions}>
                 <Link href={`/admin/edit?slug=${post.slug}`} className="btn btn-ghost" style={{ padding: '0.3rem 0.8rem', fontSize: '13px' }}>Düzenle</Link>
                 <Link href={`/blog/${post.slug}`} className="btn btn-ghost" style={{ padding: '0.3rem 0.8rem', fontSize: '13px' }} target="_blank">Gör</Link>
+                <DeletePostButton slug={post.slug} />
               </div>
             </div>
           ))}
