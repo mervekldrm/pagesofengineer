@@ -23,14 +23,14 @@ export default async function ProjectsPage() {
             <div key={p.slug} style={{ animationDelay: `${i * 0.1}s` }}>
               <Link href={`/projects/${p.slug}`} className={styles.card}>
                 <div className={styles.cardTop} style={{ background: p.color }}>
-                  <span className={styles.cardEmoji}>{p.coverEmoji || p.emoji}</span>
+                  <span className={styles.cardEmoji}>{p.coverEmoji}</span>
                   <span className={p.status === 'Tamamlandı' ? styles.statusDone : styles.statusWip}>
                     {p.status === 'Tamamlandı' ? '✅' : '🔄'} {p.status}
                   </span>
                 </div>
                 <div className={styles.cardBody}>
                   <h2 className={styles.cardTitle}>{p.title}</h2>
-                  <p className={styles.cardDesc}>{p.excerpt || p.description}</p>
+                  <p className={styles.cardDesc}>{p.excerpt}</p>
                   <div className={styles.tags}>
                     {p.tags.map((t: string) => <span key={t} className="tag-pill">{t}</span>)}
                   </div>

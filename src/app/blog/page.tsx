@@ -2,7 +2,7 @@
 
 import Link from 'next/link'
 import { useEffect, useState } from 'react'
-import { PostMeta } from '@/lib/shared'
+import { PostMeta } from '../../lib/shared'
 import styles from './page.module.css'
 
 export default function BlogPage() {
@@ -20,8 +20,8 @@ export default function BlogPage() {
         setPosts(data)
         
         // Extract all unique tags
-        const tags = Array.from(new Set(data.flatMap((p: PostMeta) => p.tags))).sort()
-        setAllTags(tags)
+        const tags = Array.from(new Set(data.flatMap((p: PostMeta) => p.tags))) as string[]
+        setAllTags(tags.sort())
       } catch (error) {
         console.error('Failed to fetch posts:', error)
       } finally {
