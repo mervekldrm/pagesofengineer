@@ -117,12 +117,17 @@ async function seedDatabaseFromLocalIfNeeded() {
 export async function getAllPosts(publishedOnly = true): Promise<PostMeta[]> {
   const client = getSupabaseAdminClient()
   if (client) {
-    await seedDatabaseFromLocalIfNeeded()
-    const { data, error } = await client.from('posts').select('*').order('date', { ascending: false })
-    if (error) throw error
-    const records = (data ?? []).map(toRecord)
-    const filtered = publishedOnly ? records.filter(post => post.published) : records
-    return filtered.map(toMeta)
+    try {
+      await seedDatabaseFromLocalIfNeeded()
+      const { data, error } = await client.from('posts').select('*').order('date', { ascending: false })
+      if (error) throw error
+      const records = (data ?? []).map(toRecord)
+      const filtered = publishedOnly ? records.filter(post => post.published) : records
+      return filtered.map(toMeta)
+    } catch (err) {
+      console.warn('Supabase query failed, falling back to local markdown:', err)
+      // Fall through to local fallback
+    }
   }
 
   const records = await readLocalRecords()
@@ -133,10 +138,15 @@ export async function getAllPosts(publishedOnly = true): Promise<PostMeta[]> {
 export async function getPost(slug: string): Promise<Post | null> {
   const client = getSupabaseAdminClient()
   if (client) {
-    await seedDatabaseFromLocalIfNeeded()
-    const { data, error } = await client.from('posts').select('*').eq('slug', slug).maybeSingle()
-    if (error) throw error
-    return data ? toRecord(data) : null
+    try {
+      await seedDatabaseFromLocalIfNeeded()
+      const { data, error } = await client.from('posts').select('*').eq('slug', slug).maybeSingle()
+      if (error) throw error
+      return data ? toRecord(data) : null
+    } catch (err) {
+      console.warn(`Supabase query failed for post ${slug}, falling back to local markdown:`, err)
+      // Fall through to local fallback
+    }
   }
 
   const records = await readLocalRecords()

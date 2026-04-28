@@ -125,11 +125,16 @@ async function seedDatabaseFromLocalIfNeeded() {
 export async function getAllProjects(publishedOnly = true): Promise<ProjectMeta[]> {
   const client = getSupabaseAdminClient()
   if (client) {
-    await seedDatabaseFromLocalIfNeeded()
-    const { data, error } = await client.from('projects').select('*').order('date', { ascending: false })
-    if (error) throw error
-    const records = (data ?? []).map(toRecord)
-    return publishedOnly ? records.filter(project => project.published) : records
+    try {
+      await seedDatabaseFromLocalIfNeeded()
+      const { data, error } = await client.from('projects').select('*').order('date', { ascending: false })
+      if (error) throw error
+      const records = (data ?? []).map(toRecord)
+      return publishedOnly ? records.filter(project => project.published) : records
+    } catch (err) {
+      console.warn('Supabase query failed for projects, falling back to local markdown:', err)
+      // Fall through to local fallback
+    }
   }
 
   const records = await readLocalRecords()
@@ -139,10 +144,15 @@ export async function getAllProjects(publishedOnly = true): Promise<ProjectMeta[
 export async function getProject(slug: string): Promise<ProjectRecord | null> {
   const client = getSupabaseAdminClient()
   if (client) {
-    await seedDatabaseFromLocalIfNeeded()
-    const { data, error } = await client.from('projects').select('*').eq('slug', slug).maybeSingle()
-    if (error) throw error
-    return data ? toRecord(data) : null
+    try {
+      await seedDatabaseFromLocalIfNeeded()
+      const { data, error } = await client.from('projects').select('*').eq('slug', slug).maybeSingle()
+      if (error) throw error
+      return data ? toRecord(data) : null
+    } catch (err) {
+      console.warn(`Supabase query failed for project ${slug}, falling back to local markdown:`, err)
+      // Fall through to local fallback
+    }
   }
 
   const records = await readLocalRecords()
