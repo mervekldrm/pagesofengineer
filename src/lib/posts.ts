@@ -88,30 +88,35 @@ async function seedDatabaseFromLocalIfNeeded() {
   const client = getSupabaseAdminClient()
   if (!client) return
 
-  const { count, error } = await client.from('posts').select('slug', { count: 'exact', head: true })
-  if (error) throw error
-  if ((count ?? 0) > 0) return
+  try {
+    const { count, error } = await client.from('posts').select('slug', { count: 'exact', head: true })
+    if (error) throw error
+    if ((count ?? 0) > 0) return
 
-  const localRecords = await readLocalRecords()
-  if (localRecords.length === 0) return
+    const localRecords = await readLocalRecords()
+    if (localRecords.length === 0) return
 
-  const { error: insertError } = await client.from('posts').upsert(
-    localRecords.map(record => ({
-      slug: record.slug,
-      title: record.title,
-      date: record.date,
-      excerpt: record.excerpt,
-      category: record.category,
-      tags: record.tags,
-      coverEmoji: record.coverEmoji,
-      published: record.published,
-      readTime: record.readTime,
-      content: record.content,
-    })),
-    { onConflict: 'slug' }
-  )
+    const { error: insertError } = await client.from('posts').upsert(
+      localRecords.map(record => ({
+        slug: record.slug,
+        title: record.title,
+        date: record.date,
+        excerpt: record.excerpt,
+        category: record.category,
+        tags: record.tags,
+        coverEmoji: record.coverEmoji,
+        published: record.published,
+        readTime: record.readTime,
+        content: record.content,
+      })),
+      { onConflict: 'slug' }
+    )
 
-  if (insertError) throw insertError
+    if (insertError) throw insertError
+  } catch (err) {
+    console.warn('Failed to seed Supabase database:', err)
+    // Silently fail - we'll use local markdown fallback
+  }
 }
 
 export async function getAllPosts(publishedOnly = true): Promise<PostMeta[]> {
