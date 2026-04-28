@@ -64,10 +64,13 @@ export default function ProjectEditor({ initialProject, isEdit }: Props) {
         router.push('/admin')
       } else {
         const d = await res.json()
-        setError(d.error || 'Bir hata oluştu.')
+        console.error('POST /api/projects error response:', d)
+        setError(d.error || `HTTP ${res.status}: Bir hata oluştu.`)
       }
     } catch (e) {
-      setError('Bir hata oluştu: ' + (e instanceof Error ? e.message : 'Bilinmeyen hata'))
+      const msg = e instanceof Error ? e.message : String(e)
+      console.error('POST /api/projects exception:', msg)
+      setError(`Hata: ${msg}`)
     }
     
     setSaving(false)

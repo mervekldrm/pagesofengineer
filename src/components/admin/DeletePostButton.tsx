@@ -17,11 +17,12 @@ export default function DeletePostButton({ slug }: { slug: string }) {
       } else {
         const data = await res.json()
         console.error('Delete error:', data)
-        alert(data.error || 'Silme başarısız oldu')
+        alert(data.error || `HTTP ${res.status}: Silme başarısız oldu`)
       }
     } catch (e) {
-      console.error('Delete exception:', e)
-      alert('Bir hata oluştu: ' + (e instanceof Error ? e.message : 'Bilinmeyen hata'))
+      const msg = e instanceof Error ? e.message : String(e)
+      console.error('Delete exception:', msg)
+      alert(`Silme hatası: ${msg}`)
     }
   }
 

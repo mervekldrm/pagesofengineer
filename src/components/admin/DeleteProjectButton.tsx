@@ -5,18 +5,24 @@
   async function handle() {
     if (!confirm('Projeyi silmek istediğinizden emin misiniz?')) return
     try {
+      console.log('Deleting project:', slug)
       const res = await fetch(`/api/projects?slug=${encodeURIComponent(slug)}`, { 
         method: 'DELETE',
         credentials: 'include'
       })
+      console.log('Delete response status:', res.status)
       if (res.ok) {
+        console.log('Delete successful, reloading...')
         location.reload()
       } else {
         const data = await res.json()
-        alert(data.error || 'Silme başarısız oldu')
+        console.error('Delete error:', data)
+        alert(data.error || `HTTP ${res.status}: Silme başarısız oldu`)
       }
     } catch (e) {
-      alert('Bir hata oluştu: ' + (e instanceof Error ? e.message : 'Bilinmeyen hata'))
+      const msg = e instanceof Error ? e.message : String(e)
+      console.error('Delete exception:', msg)
+      alert(`Silme hatası: ${msg}`)
     }
   }
 

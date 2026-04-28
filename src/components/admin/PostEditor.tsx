@@ -80,10 +80,13 @@ export default function PostEditor({ initialPost, isEdit }: Props) {
         router.push('/admin')
       } else {
         const d = await res.json()
-        setError(d.error || 'Bir hata oluştu.')
+        console.error('POST /api/posts error response:', d)
+        setError(d.error || `HTTP ${res.status}: Bir hata oluştu.`)
       }
     } catch (e) {
-      setError('Bir hata oluştu: ' + (e instanceof Error ? e.message : 'Bilinmeyen hata'))
+      const msg = e instanceof Error ? e.message : String(e)
+      console.error('POST /api/posts exception:', msg)
+      setError(`Hata: ${msg}`)
     }
 
     setSaving(false)
