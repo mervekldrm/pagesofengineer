@@ -11,7 +11,19 @@ interface Props {
 }
 
 const EMOJIS = ['📝', '🧬', '☁️', '🧪', '🤖', '🔬', '💻', '📖', '🎵', '🔭', '🌱', '⚡', '🎯', '🚀', '💡']
-const CATEGORIES = ['Biyoinformatik', 'Cloud', 'Software Testing', 'Yapay Zeka', 'Yazılım', 'Hobiler', 'Düşünceler', 'Genel']
+const CATEGORIES = [
+  { name: 'Şiir', emoji: '✨' },
+  { name: 'Doğa', emoji: '🌿' },
+  { name: 'Gezi', emoji: '✈️' },
+  { name: 'Biyoinformatik', emoji: '🧬' },
+  { name: 'Cloud', emoji: '☁️' },
+  { name: 'Software Testing', emoji: '🧪' },
+  { name: 'Yapay Zeka', emoji: '🤖' },
+  { name: 'Yazılım', emoji: '💻' },
+  { name: 'Hobiler', emoji: '🎯' },
+  { name: 'Düşünceler', emoji: '💡' },
+  { name: 'Genel', emoji: '📝' },
+]
 
 export default function PostEditor({ initialPost, isEdit }: Props) {
   const router = useRouter()
@@ -106,7 +118,7 @@ export default function PostEditor({ initialPost, isEdit }: Props) {
           <div className={styles.sideSection}>
             <label>Kategori</label>
             <select value={category} onChange={e => setCategory(e.target.value)}>
-              {CATEGORIES.map(c => <option key={c}>{c}</option>)}
+              {CATEGORIES.map(c => <option key={c.name} value={c.name}>{c.emoji} {c.name}</option>)}
             </select>
           </div>
           <div className={styles.sideSection}>

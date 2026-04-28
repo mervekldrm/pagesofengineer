@@ -9,6 +9,20 @@ interface Props {
   isEdit?: boolean
 }
 
+const CATEGORIES = [
+  { name: 'Şiir', emoji: '✨' },
+  { name: 'Doğa', emoji: '🌿' },
+  { name: 'Gezi', emoji: '✈️' },
+  { name: 'Biyoinformatik', emoji: '🧬' },
+  { name: 'Cloud', emoji: '☁️' },
+  { name: 'Software Testing', emoji: '🧪' },
+  { name: 'Yapay Zeka', emoji: '🤖' },
+  { name: 'Yazılım', emoji: '💻' },
+  { name: 'Hobiler', emoji: '🎯' },
+  { name: 'Düşünceler', emoji: '💡' },
+  { name: 'Genel', emoji: '📝' },
+]
+
 export default function ProjectEditor({ initialProject, isEdit }: Props) {
   const router = useRouter()
   const [title, setTitle] = useState(initialProject?.title || '')
@@ -65,6 +79,12 @@ export default function ProjectEditor({ initialProject, isEdit }: Props) {
           <div className={styles.sideSection}>
             <label>Emoji</label>
             <input value={emoji} onChange={e=>setEmoji(e.target.value)} />
+          </div>
+          <div className={styles.sideSection}>
+            <label>Kategori</label>
+            <select value={category} onChange={e => setCategory(e.target.value)}>
+              {CATEGORIES.map(c => <option key={c.name} value={c.name}>{c.emoji} {c.name}</option>)}
+            </select>
           </div>
           <div className={styles.sideSection}>
             <label>Durum</label>
