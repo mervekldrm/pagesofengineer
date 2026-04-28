@@ -45,22 +45,30 @@ export default function ProjectEditor({ initialProject, isEdit }: Props) {
     if (!title.trim()) { setError('Başlık gerekli'); return }
     if (!slug.trim()) { setError('Slug gerekli'); return }
     setSaving(true); setError('')
-    const res = await fetch('/api/projects', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        slug,
-        frontmatter: {
-          title, excerpt, category, tags: tags.split(',').map((t:string)=>t.trim()).filter(Boolean),
-          coverEmoji: emoji, status, link, color, published: asDraft ? false : published
-        },
-        content,
-      }),
-    })
-    if (res.ok) router.push('/admin')
-    else {
-      const d = await res.json(); setError(d.error || 'Bir hata oluştu.')
+    
+    try {
+      const res = await fetch('/api/projects', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          slug,
+          frontmatter: {
+            title, excerpt, category, tags: tags.split(',').map((t:string)=>t.trim()).filter(Boolean),
+            coverEmoji: emoji, status, link, color, published: asDraft ? false : published
+          },
+          content,
+        }),
+      })
+      if (res.ok) {
+        router.push('/admin')
+      } else {
+        const d = await res.json()
+        setError(d.error || 'Bir hata oluştu.')
+      }
+    } catch (e) {
+      setError('Bir hata oluştu: ' + (e instanceof Error ? e.message : 'Bilinmeyen hata'))
     }
+    
     setSaving(false)
   }
 

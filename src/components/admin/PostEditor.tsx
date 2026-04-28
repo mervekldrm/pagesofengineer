@@ -58,27 +58,31 @@ export default function PostEditor({ initialPost, isEdit }: Props) {
     setSaving(true)
     setError('')
 
-    const res = await fetch('/api/posts', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        slug,
-        title,
-        excerpt,
-        content,
-        category,
-        tags: tags.split(',').map((t: string) => t.trim()).filter(Boolean),
-        coverEmoji: emoji,
-        published: asDraft ? false : published,
-        date: initialPost?.date || new Date().toISOString(),
-      }),
-    })
+    try {
+      const res = await fetch('/api/posts', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          slug,
+          title,
+          excerpt,
+          content,
+          category,
+          tags: tags.split(',').map((t: string) => t.trim()).filter(Boolean),
+          coverEmoji: emoji,
+          published: asDraft ? false : published,
+          date: initialPost?.date || new Date().toISOString(),
+        }),
+      })
 
-    if (res.ok) {
-      router.push('/admin')
-    } else {
-      const d = await res.json()
-      setError(d.error || 'Bir hata oluştu.')
+      if (res.ok) {
+        router.push('/admin')
+      } else {
+        const d = await res.json()
+        setError(d.error || 'Bir hata oluştu.')
+      }
+    } catch (e) {
+      setError('Bir hata oluştu: ' + (e instanceof Error ? e.message : 'Bilinmeyen hata'))
     }
 
     setSaving(false)

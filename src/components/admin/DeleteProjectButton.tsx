@@ -4,9 +4,17 @@
  export default function DeleteProjectButton({ slug }: { slug: string }) {
   async function handle() {
     if (!confirm('Projeyi silmek istediğinizden emin misiniz?')) return
-    const res = await fetch(`/api/projects?slug=${encodeURIComponent(slug)}`, { method: 'DELETE' })
-    if (res.ok) location.reload()
-    else alert('Silme başarısız oldu')
+    try {
+      const res = await fetch(`/api/projects?slug=${encodeURIComponent(slug)}`, { method: 'DELETE' })
+      if (res.ok) {
+        location.reload()
+      } else {
+        const data = await res.json()
+        alert(data.error || 'Silme başarısız oldu')
+      }
+    } catch (e) {
+      alert('Bir hata oluştu: ' + (e instanceof Error ? e.message : 'Bilinmeyen hata'))
+    }
   }
 
   return (

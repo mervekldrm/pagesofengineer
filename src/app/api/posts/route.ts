@@ -7,7 +7,8 @@ export async function GET() {
     const posts = await getAllPosts()
     return NextResponse.json(posts)
   } catch (e) {
-    return NextResponse.json({ error: 'Sunucu hatası' }, { status: 500 })
+    console.error('Get posts error:', e)
+    return NextResponse.json({ error: 'Yazılar alınırken hata oluştu' }, { status: 500 })
   }
 }
 
@@ -21,17 +22,23 @@ export async function POST(req: NextRequest) {
     await savePost(slug, frontmatter, content || '')
     return NextResponse.json({ ok: true, slug })
   } catch (e) {
-    return NextResponse.json({ error: 'Sunucu hatası' }, { status: 500 })
+    console.error('Save post error:', e)
+    return NextResponse.json({ error: 'Yazı kaydedilirken hata oluştu' }, { status: 500 })
   }
 }
 
 export async function DELETE(req: NextRequest) {
   if (!isAuthenticated()) return NextResponse.json({ error: 'Yetkisiz erişim' }, { status: 401 })
 
-  const { searchParams } = new URL(req.url)
-  const slug = searchParams.get('slug')
-  if (!slug) return NextResponse.json({ error: 'Slug gerekli' }, { status: 400 })
+  try {
+    const { searchParams } = new URL(req.url)
+    const slug = searchParams.get('slug')
+    if (!slug) return NextResponse.json({ error: 'Slug gerekli' }, { status: 400 })
 
-  await deletePost(slug)
-  return NextResponse.json({ ok: true })
+    await deletePost(slug)
+    return NextResponse.json({ ok: true })
+  } catch (e) {
+    console.error('Delete post error:', e)
+    return NextResponse.json({ error: 'Yazı silinirken hata oluştu' }, { status: 500 })
+  }
 }
