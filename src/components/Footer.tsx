@@ -42,7 +42,7 @@ export default function Footer() {
               <path d="M2 4h20v16H2z" stroke="currentColor" strokeWidth="1" fill="none" />
               <path d="M22 6l-10 7L2 6" stroke="currentColor" strokeWidth="1" fill="none" />
             </svg>
-            <span className={styles.socialLabel}>mail</span>
+            <span className={styles.socialLabel}>Mail</span>
           </a>
         </div>
         <p className={styles.copy}>© {new Date().getFullYear()} Merve — pagesofengineer.com</p>
