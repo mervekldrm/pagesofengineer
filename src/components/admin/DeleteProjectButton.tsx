@@ -5,7 +5,10 @@
   async function handle() {
     if (!confirm('Projeyi silmek istediğinizden emin misiniz?')) return
     try {
-      const res = await fetch(`/api/projects?slug=${encodeURIComponent(slug)}`, { method: 'DELETE' })
+      const res = await fetch(`/api/projects?slug=${encodeURIComponent(slug)}`, { 
+        method: 'DELETE',
+        credentials: 'include'
+      })
       if (res.ok) {
         location.reload()
       } else {

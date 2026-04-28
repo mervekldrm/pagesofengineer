@@ -50,6 +50,7 @@ export default function ProjectEditor({ initialProject, isEdit }: Props) {
       const res = await fetch('/api/projects', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
+        credentials: 'include',
         body: JSON.stringify({
           slug,
           frontmatter: {

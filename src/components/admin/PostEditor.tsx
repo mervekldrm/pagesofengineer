@@ -62,6 +62,7 @@ export default function PostEditor({ initialPost, isEdit }: Props) {
       const res = await fetch('/api/posts', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
+        credentials: 'include',
         body: JSON.stringify({
           slug,
           title,

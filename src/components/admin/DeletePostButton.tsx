@@ -5,7 +5,10 @@ export default function DeletePostButton({ slug }: { slug: string }) {
   async function handle() {
     if (!confirm('Blog yazısını silmek istediğinizden emin misiniz?')) return
     try {
-      const res = await fetch(`/api/posts?slug=${encodeURIComponent(slug)}`, { method: 'DELETE' })
+      const res = await fetch(`/api/posts?slug=${encodeURIComponent(slug)}`, { 
+        method: 'DELETE',
+        credentials: 'include'
+      })
       if (res.ok) {
         location.reload()
       } else {
