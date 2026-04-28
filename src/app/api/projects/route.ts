@@ -11,8 +11,10 @@ export async function POST(req: NextRequest) {
     await saveProject(data.slug, data.frontmatter || {}, data.content || '')
     return NextResponse.json({ ok: true })
   } catch (e) {
-    console.error('Save project error:', e)
-    return NextResponse.json({ error: 'Proje kaydedilirken hata oluştu' }, { status: 500 })
+    const errorMsg = e instanceof Error ? e.message : typeof e === 'string' ? e : JSON.stringify(e)
+    console.error('POST /api/projects error:', errorMsg)
+    console.error('POST /api/projects error full:', e)
+    return NextResponse.json({ error: 'Proje kaydedilirken hata oluştu: ' + errorMsg }, { status: 500 })
   }
 }
 
@@ -26,7 +28,9 @@ export async function DELETE(req: NextRequest) {
     await deleteProject(slug)
     return NextResponse.json({ ok: true })
   } catch (e) {
-    console.error('Delete project error:', e)
-    return NextResponse.json({ error: 'Proje silinirken hata oluştu' }, { status: 500 })
+    const errorMsg = e instanceof Error ? e.message : typeof e === 'string' ? e : JSON.stringify(e)
+    console.error('DELETE /api/projects error:', errorMsg)
+    console.error('DELETE /api/projects error full:', e)
+    return NextResponse.json({ error: 'Proje silinirken hata oluştu: ' + errorMsg }, { status: 500 })
   }
 }

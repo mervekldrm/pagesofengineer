@@ -7,8 +7,10 @@ export async function GET() {
     const posts = await getAllPosts()
     return NextResponse.json(posts)
   } catch (e) {
-    console.error('Get posts error:', e)
-    return NextResponse.json({ error: 'Yazılar alınırken hata oluştu' }, { status: 500 })
+    const errorMsg = e instanceof Error ? e.message : typeof e === 'string' ? e : JSON.stringify(e)
+    console.error('GET /api/posts error:', errorMsg)
+    console.error('GET /api/posts error full:', e)
+    return NextResponse.json({ error: 'Yazılar alınırken hata oluştu: ' + errorMsg }, { status: 500 })
   }
 }
 
@@ -32,8 +34,10 @@ export async function POST(req: NextRequest) {
     console.log('POST /api/posts: Successfully saved slug:', slug)
     return NextResponse.json({ ok: true, slug })
   } catch (e) {
-    console.error('POST /api/posts error:', e instanceof Error ? e.message : e)
-    return NextResponse.json({ error: 'Yazı kaydedilirken hata oluştu: ' + (e instanceof Error ? e.message : 'Bilinmeyen hata') }, { status: 500 })
+    const errorMsg = e instanceof Error ? e.message : typeof e === 'string' ? e : JSON.stringify(e)
+    console.error('POST /api/posts error:', errorMsg)
+    console.error('POST /api/posts error full:', e)
+    return NextResponse.json({ error: 'Yazı kaydedilirken hata oluştu: ' + errorMsg }, { status: 500 })
   }
 }
 
@@ -57,7 +61,9 @@ export async function DELETE(req: NextRequest) {
     console.log('DELETE /api/posts: Successfully deleted slug:', slug)
     return NextResponse.json({ ok: true })
   } catch (e) {
-    console.error('DELETE /api/posts error:', e instanceof Error ? e.message : e)
-    return NextResponse.json({ error: 'Yazı silinirken hata oluştu: ' + (e instanceof Error ? e.message : 'Bilinmeyen hata') }, { status: 500 })
+    const errorMsg = e instanceof Error ? e.message : typeof e === 'string' ? e : JSON.stringify(e)
+    console.error('DELETE /api/posts error:', errorMsg)
+    console.error('DELETE /api/posts error full:', e)
+    return NextResponse.json({ error: 'Yazı silinirken hata oluştu: ' + errorMsg }, { status: 500 })
   }
 }
