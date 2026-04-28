@@ -18,9 +18,9 @@ function toRecord(row: any): PostRecord {
     excerpt: row.excerpt || '',
     category: row.category || 'Genel',
     tags: Array.isArray(row.tags) ? row.tags : row.tags || [],
-    coverEmoji: row.coverEmoji || '📝',
+    coverEmoji: row.coveremoji || row.coverEmoji || '📝',
     published: row.published !== false,
-    readTime: row.readTime || 1,
+    readTime: row.readtime || row.readTime || 1,
     content: row.content || '',
   }
 }
@@ -104,9 +104,9 @@ async function seedDatabaseFromLocalIfNeeded() {
         excerpt: record.excerpt,
         category: record.category,
         tags: record.tags,
-        coverEmoji: record.coverEmoji,
+        coveremoji: record.coverEmoji,
         published: record.published,
-        readTime: record.readTime,
+        readtime: record.readTime,
         content: record.content,
       })),
       { onConflict: 'slug' }
@@ -167,9 +167,9 @@ export async function savePost(slug: string, frontmatter: Partial<PostMeta>, con
     excerpt: frontmatter.excerpt || '',
     category: frontmatter.category || 'Genel',
     tags: frontmatter.tags || [],
-    coverEmoji: frontmatter.coverEmoji || '📝',
+    coveremoji: frontmatter.coverEmoji || '📝',
     published: frontmatter.published !== false,
-    readTime: Math.max(1, Math.ceil(content.split(/\s+/).filter(Boolean).length / 200)),
+    readtime: Math.max(1, Math.ceil(content.split(/\s+/).filter(Boolean).length / 200)),
     content,
   }
 
