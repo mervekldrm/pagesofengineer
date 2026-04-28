@@ -3,7 +3,7 @@ import { isAuthenticated } from '@/lib/auth'
 import { saveProject, deleteProject } from '@/lib/projects'
 
 export async function POST(req: NextRequest) {
-  if (!isAuthenticated()) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+  if (!isAuthenticated()) return NextResponse.json({ error: 'Yetkisiz erişim' }, { status: 401 })
   
   try {
     const data = await req.json()
@@ -17,7 +17,7 @@ export async function POST(req: NextRequest) {
 }
 
 export async function DELETE(req: NextRequest) {
-  if (!isAuthenticated()) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+  if (!isAuthenticated()) return NextResponse.json({ error: 'Yetkisiz erişim' }, { status: 401 })
   
   try {
     const { searchParams } = new URL(req.url)
