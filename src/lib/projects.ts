@@ -188,6 +188,11 @@ export async function saveProject(slug: string, frontmatter: any, content: strin
     return
   }
 
+  // On production (Vercel), local fallback fails. Require Supabase.
+  if (process.env.NODE_ENV === 'production') {
+    throw new Error('Supabase not configured. Set SUPABASE_URL and SUPABASE_SERVICE_ROLE_KEY environment variables.')
+  }
+
   await writeLocalRecord(slug, frontmatter, content)
 }
 
@@ -197,6 +202,11 @@ export async function deleteProject(slug: string) {
     const { error } = await client.from('projects').delete().eq('slug', slug)
     if (error) throw error
     return
+  }
+
+  // On production (Vercel), local fallback fails. Require Supabase.
+  if (process.env.NODE_ENV === 'production') {
+    throw new Error('Supabase not configured. Set SUPABASE_URL and SUPABASE_SERVICE_ROLE_KEY environment variables.')
   }
 
   await deleteLocalRecord(slug)

@@ -179,6 +179,11 @@ export async function savePost(slug: string, frontmatter: Partial<PostMeta>, con
     return
   }
 
+  // On production (Vercel), local fallback fails. Require Supabase.
+  if (process.env.NODE_ENV === 'production') {
+    throw new Error('Supabase not configured. Set SUPABASE_URL and SUPABASE_SERVICE_ROLE_KEY environment variables.')
+  }
+
   await writeLocalRecord(slug, frontmatter, content)
 }
 
@@ -188,6 +193,11 @@ export async function deletePost(slug: string) {
     const { error } = await client.from('posts').delete().eq('slug', slug)
     if (error) throw error
     return
+  }
+
+  // On production (Vercel), local fallback fails. Require Supabase.
+  if (process.env.NODE_ENV === 'production') {
+    throw new Error('Supabase not configured. Set SUPABASE_URL and SUPABASE_SERVICE_ROLE_KEY environment variables.')
   }
 
   await deleteLocalRecord(slug)
