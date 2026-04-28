@@ -88,6 +88,9 @@ async function seedDatabaseFromLocalIfNeeded() {
   const client = getSupabaseAdminClient()
   if (!client) return
 
+  // Skip seeding in production - RLS policies prevent it, data should already exist
+  if (process.env.NODE_ENV === 'production') return
+
   try {
     const { count, error } = await client.from('posts').select('slug', { count: 'exact', head: true })
     if (error) throw error
