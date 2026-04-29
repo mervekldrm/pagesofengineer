@@ -46,6 +46,9 @@ export default function ProjectEditor({ initialProject, isEdit }: Props) {
     if (!slug.trim()) { setError('Slug gerekli'); return }
     setSaving(true); setError('')
     
+    // When publishing (not draft), always set published to true
+    const isPublished = !asDraft
+    
     try {
       const res = await fetch('/api/projects', {
         method: 'POST',
@@ -55,7 +58,7 @@ export default function ProjectEditor({ initialProject, isEdit }: Props) {
           slug,
           frontmatter: {
             title, excerpt, category, tags: tags.split(',').map((t:string)=>t.trim()).filter(Boolean),
-            coverEmoji: emoji, status, link, color, published: asDraft ? false : published
+            coverEmoji: emoji, status, link, color, published: isPublished
           },
           content,
         }),

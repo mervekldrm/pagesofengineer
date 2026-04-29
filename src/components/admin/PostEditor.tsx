@@ -58,6 +58,9 @@ export default function PostEditor({ initialPost, isEdit }: Props) {
     setSaving(true)
     setError('')
 
+    // When publishing (not draft), always set published to true
+    const isPublished = !asDraft
+
     try {
       const res = await fetch('/api/posts', {
         method: 'POST',
@@ -71,7 +74,7 @@ export default function PostEditor({ initialPost, isEdit }: Props) {
           category,
           tags: tags.split(',').map((t: string) => t.trim()).filter(Boolean),
           coverEmoji: emoji,
-          published: asDraft ? false : published,
+          published: isPublished,
           date: initialPost?.date || new Date().toISOString(),
         }),
       })
