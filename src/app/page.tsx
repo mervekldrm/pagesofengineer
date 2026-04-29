@@ -56,7 +56,7 @@ export default async function Home() {
               Burası projelerimi, düşüncelerimi ve ilhamlarımı bir araya getirdiğim kişisel alanım.
               Eğer burada bir fikirle, yazıyla ya da projeyle bağ kurarsan — ne mutlu bana.
             </p>
-            <Link href="/blog" className="btn btn-primary">Daha fazlası için göz at</Link>
+            <Link href="/explore" className="btn btn-primary">Ne var? — Daha fazlası için göz at</Link>
           </div>
         </div>
       </section>
@@ -129,7 +129,7 @@ export default async function Home() {
               </div>
             ))}
           </div>
-          <Link href="/projects" className="btn btn-ghost">Projelerimi gör →</Link>
+          <Link href="/explore" className="btn btn-ghost">Ne var? — Daha fazlası için göz at</Link>
         </div>
       </section>
     </div>
