@@ -2,10 +2,9 @@ import styles from './page.module.css'
 import Link from 'next/link'
 
 export const metadata = { title: 'Projeler — Pages of Engineer' }
+export const revalidate = 60 // ISR - revalidate every 60 seconds
 
 import { getAllProjects } from '../../lib/projects'
-
-export const dynamic = 'force-dynamic'
 
 export default async function ProjectsPage() {
   const projects = await getAllProjects()
