@@ -1,13 +1,4 @@
 /* Diagonal card design for Explore page — warmer, discovery-focused palette */
-:global(:root) {
-  --accent-post-start: #6a9edb;
-  --accent-post-end: #8fc3ff;
-  --accent-project-start: #f6a56a;
-  --accent-project-end: #f07b7b;
-  --card-bg: rgba(255,255,255,0.96);
-  --text-strong: #6b3b22;
-  --text-muted: #7b5b4a;
-}
 .page {
   padding: 3rem 0;
   position: relative;
