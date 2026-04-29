@@ -5,7 +5,7 @@ import { notFound } from 'next/navigation'
 import styles from './page.module.css'
 import type { PostMeta } from '../../../lib/shared'
 
-export const dynamic = 'force-dynamic'
+export const revalidate = 60 // ISR - revalidate every 60 seconds
 
 export async function generateStaticParams() {
   return (await getAllPosts()).map((p: PostMeta) => ({ slug: p.slug }))
