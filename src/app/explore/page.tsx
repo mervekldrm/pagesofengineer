@@ -1,5 +1,5 @@
 import Link from 'next/link'
-import styles from '../page.module.css'
+import styles from './page.module.css'
 import { getAllPosts } from '../../lib/posts'
 import { getAllProjects } from '../../lib/projects'
 import type { PostMeta, ProjectMeta } from '../../lib/shared'
