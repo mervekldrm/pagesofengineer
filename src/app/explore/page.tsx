@@ -34,7 +34,10 @@ export default async function ExplorePage() {
         <div className={styles.grid}>
           {items.map((it: any, i: number) => (
             <div key={`${it.__type}-${it.slug}`} style={{ animationDelay: `${i * 0.05}s` }}>
-              <Link href={it.__type === 'post' ? `/blog/${it.slug}` : `/projects/${it.slug}`} className={styles.card}>
+              <Link
+                href={it.__type === 'post' ? `/blog/${it.slug}` : `/projects/${it.slug}`}
+                className={`${styles.card} ${it.__type === 'post' ? styles.post : styles.project}`}
+              >
                 <div className={styles.cardTop} style={{ background: it.color || 'transparent' }}>
                   <span className={styles.cardEmoji}>{it.coverEmoji}</span>
                   <span className={styles.cardType}>{it.__type === 'post' ? 'Yazı' : 'Proje'}</span>

@@ -1,77 +1,73 @@
-/* Diagonal card design for Explore page */
+/* Diagonal card design for Explore page — warmer, discovery-focused palette */
+:root {
+  --accent-post-start: #6a9edb;
+  --accent-post-end: #8fc3ff;
+  --accent-project-start: #f6a56a;
+  --accent-project-end: #f07b7b;
+  --card-bg: rgba(255,255,255,0.96);
+  --text-strong: #6b3b22;
+  --text-muted: #7b5b4a;
+}
 .page {
-  padding: 2.5rem 0;
+  padding: 3rem 0;
+  position: relative;
+  background: radial-gradient(1200px 600px at 10% 10%, rgba(247,230,222,0.5), transparent 10%), radial-gradient(800px 500px at 90% 80%, rgba(245,236,240,0.45), transparent 8%), linear-gradient(180deg, #fff9f6 0%, #fff6f3 100%);
 }
 .header {
-  margin-bottom: 1.5rem;
+  margin-bottom: 1.25rem;
 }
-.headerActions {
-  display: flex;
-  gap: 0.5rem;
-}
-.grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  gap: 1rem;
-}
+.headerActions { display:flex; gap:0.6rem }
+.grid { display:grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1rem; }
+
 .card {
-  background: linear-gradient(180deg, rgba(255,255,255,0.95), rgba(250,250,250,0.9));
-  border-radius: 8px;
-  overflow: hidden;
-  box-shadow: 0 6px 18px rgba(0,0,0,0.06);
-  transition: transform 260ms ease, box-shadow 260ms ease;
+  background: var(--card-bg);
+  border-radius: 10px;
+  overflow: visible;
+  box-shadow: 0 8px 24px rgba(36,24,18,0.06);
+  transition: transform 280ms cubic-bezier(.2,.9,.2,1), box-shadow 280ms ease;
   cursor: pointer;
   display: block;
-}
-.card:hover {
-  transform: translateY(-6px) scale(1.005);
-  box-shadow: 0 18px 40px rgba(0,0,0,0.09);
-}
-.cardTop {
   position: relative;
-  height: 56px;
-  display: flex;
-  align-items: center;
-  padding-left: 1rem;
-  background: transparent;
 }
+.card:hover { transform: translateY(-8px); box-shadow: 0 28px 60px rgba(36,24,18,0.12); }
+
+.card::after {
+  content: '';
+  position: absolute;
+  right: -28px;
+  top: -28px;
+  width: 96px;
+  height: 96px;
+  background: radial-gradient(circle at 30% 30%, rgba(255,255,255,0.12), transparent 30%);
+  transform: rotate(-10deg);
+  pointer-events: none;
+}
+
+.cardTop { position: relative; height: 64px; display:flex; align-items:center; padding-left:1rem; background:transparent }
 .cardTop::before {
   content: '';
   position: absolute;
-  left: -40%;
-  right: -40%;
-  top: -12px;
-  bottom: -12px;
+  left: -50%; right: -50%; top: -20px; bottom: -20px;
   background: linear-gradient(90deg, #8b5e3c, #c07b54);
-  transform: rotate(-6deg);
-  z-index: 0;
+  transform: rotate(-8deg);
+  z-index: 0; filter: saturate(1.05) contrast(1.02);
 }
-.cardEmoji {
-  font-size: 22px;
-  z-index: 1;
-  margin-right: 0.5rem;
-}
-.cardType {
-  margin-left: 0.5rem;
-  font-size: 13px;
-  color: rgba(255,255,255,0.95);
-  z-index: 1;
-}
-.cardBody {
-  padding: 1rem 1.25rem 1.25rem 1.25rem;
-}
-.cardTitle {
-  font-size: 1.35rem;
-  margin: 0 0 0.35rem 0;
-  color: #8b3b1a;
-}
-.cardDesc {
-  margin: 0;
-  color: #6b4b3a;
-}
+.post .cardTop::before { background: linear-gradient(90deg, var(--accent-post-start), var(--accent-post-end)); }
+.project .cardTop::before { background: linear-gradient(90deg, var(--accent-project-start), var(--accent-project-end)); }
+
+.cardEmoji { font-size:22px; z-index:1; margin-right:0.6rem }
+.cardType { margin-left:0.5rem; font-size:12px; color:rgba(255,255,255,0.95); z-index:1; font-weight:600; padding:4px 8px; border-radius:999px; background: rgba(0,0,0,0.08); }
+
+.cardBody { padding: 1rem 1.25rem 1.25rem }
+.cardTitle { font-size:1.25rem; margin:0 0 0.3rem 0; color:var(--text-strong); }
+.cardDesc { margin:0; color:var(--text-muted); }
+
+/* small shimmer animation for entry */
+@keyframes revealUp { from { opacity:0; transform: translateY(8px); } to { opacity:1; transform: translateY(0); } }
+.grid > div { animation: revealUp 360ms ease both; }
+
 @media (max-width: 640px) {
-  .grid {
-    grid-template-columns: 1fr;
-  }
-  .cardTop::before { left: -10%; right: -10%; }
+  .grid { grid-template-columns: 1fr }
+  .cardTop::before { left: -12%; right: -12%; }
+  .card::after { display:none }
 }
