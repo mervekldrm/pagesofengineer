@@ -6,6 +6,13 @@ import type { PostMeta, ProjectMeta } from '../../lib/shared'
 
 export const revalidate = 60
 
+const decor = [
+  { emoji: '✦', className: 'sparkOne' },
+  { emoji: '◌', className: 'sparkTwo' },
+  { emoji: '✺', className: 'sparkThree' },
+  { emoji: '⟡', className: 'sparkFour' },
+]
+
 export default async function ExplorePage() {
   const posts = await getAllPosts()
   const projects = await getAllProjects()
@@ -19,6 +26,13 @@ export default async function ExplorePage() {
 
   return (
     <div className={styles.page}>
+      <div className={styles.decor} aria-hidden="true">
+        {decor.map((item, index) => (
+          <span key={item.className} className={`${styles.spark} ${styles[item.className as keyof typeof styles]}`} style={{ animationDelay: `${index * 0.45}s` }}>
+            {item.emoji}
+          </span>
+        ))}
+      </div>
       <div className="container">
         <div className={styles.header}>
           <div>
@@ -33,12 +47,21 @@ export default async function ExplorePage() {
 
         <div className={styles.grid}>
           {items.map((it: any, i: number) => (
-            <div key={`${it.__type}-${it.slug}`} style={{ animationDelay: `${i * 0.05}s` }}>
+            <div
+              key={`${it.__type}-${it.slug}`}
+              className={styles.cardShell}
+              style={{
+                animationDelay: `${i * 0.05}s`,
+                ['--card-tilt' as any]: `${i % 2 === 0 ? -1 : 1}deg`,
+                ['--card-float' as any]: `${i % 3 === 0 ? 10 : 14}px`,
+              }}
+            >
               <Link
                 href={it.__type === 'post' ? `/blog/${it.slug}` : `/projects/${it.slug}`}
                 className={`${styles.card} ${it.__type === 'post' ? styles.post : styles.project}`}
               >
-                <div className={styles.cardTop} style={{ background: it.color || 'transparent' }}>
+                <div className={styles.cardTop}>
+                  <span className={styles.cardGlow} aria-hidden="true" />
                   <span className={styles.cardEmoji}>{it.coverEmoji}</span>
                   <span className={styles.cardType}>{it.__type === 'post' ? 'Yazı' : 'Proje'}</span>
                 </div>

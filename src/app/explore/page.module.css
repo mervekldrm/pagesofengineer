@@ -1,64 +1,251 @@
-/* Diagonal card design for Explore page — warmer, discovery-focused palette */
+/* Explore page: cooler palette, floating accents, more organic card motion */
 .page {
-  padding: 3rem 0;
+  --explore-bg-a: #061826;
+  --explore-bg-b: #0e2c44;
+  --explore-bg-c: #133d3b;
+  --explore-text: #f4f7fb;
+  --explore-soft: rgba(244, 247, 251, 0.74);
+  --explore-surface: rgba(11, 24, 36, 0.72);
+  --explore-border: rgba(255, 255, 255, 0.14);
+  --explore-shadow: 0 24px 60px rgba(3, 10, 18, 0.28);
+  padding: 3.5rem 0 4rem;
   position: relative;
-  background: radial-gradient(1200px 600px at 10% 10%, rgba(247,230,222,0.5), transparent 10%), radial-gradient(800px 500px at 90% 80%, rgba(245,236,240,0.45), transparent 8%), linear-gradient(180deg, #fff9f6 0%, #fff6f3 100%);
+  overflow: clip;
+  background:
+    radial-gradient(900px 420px at 14% 14%, rgba(71, 196, 217, 0.28), transparent 60%),
+    radial-gradient(700px 340px at 86% 20%, rgba(94, 233, 200, 0.18), transparent 55%),
+    radial-gradient(900px 520px at 80% 86%, rgba(255, 155, 92, 0.16), transparent 58%),
+    linear-gradient(145deg, var(--explore-bg-a) 0%, var(--explore-bg-b) 48%, var(--explore-bg-c) 100%);
 }
+
+.page::before,
+.page::after {
+  content: '';
+  position: absolute;
+  inset: auto;
+  border-radius: 999px;
+  pointer-events: none;
+  filter: blur(2px);
+}
+
+.page::before {
+  width: 18rem;
+  height: 18rem;
+  top: -7rem;
+  right: -4rem;
+  background: radial-gradient(circle at 35% 35%, rgba(255, 255, 255, 0.15), transparent 62%);
+  transform: rotate(18deg);
+}
+
+.page::after {
+  width: 22rem;
+  height: 22rem;
+  bottom: -10rem;
+  left: -7rem;
+  background: radial-gradient(circle at 50% 50%, rgba(71, 196, 217, 0.16), transparent 68%);
+}
+
+.decor {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.spark {
+  position: absolute;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.2rem;
+  height: 2.2rem;
+  border-radius: 999px;
+  font-size: 1.15rem;
+  color: rgba(244, 247, 251, 0.95);
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.14);
+  animation: drift 8s ease-in-out infinite;
+}
+
+.sparkOne { top: 9%; left: 9%; }
+.sparkTwo { top: 18%; right: 12%; width: 1.8rem; height: 1.8rem; animation-duration: 9s; }
+.sparkThree { bottom: 20%; left: 14%; width: 1.95rem; height: 1.95rem; animation-duration: 10s; }
+.sparkFour { bottom: 12%; right: 18%; animation-duration: 8.5s; }
+
 .header {
-  margin-bottom: 1.25rem;
+  margin-bottom: 1.5rem;
 }
-.headerActions { display:flex; gap:0.6rem }
-.grid { display:grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1rem; }
+
+.header h1,
+.sub {
+  color: var(--explore-text);
+}
+
+.sub {
+  max-width: 40rem;
+  opacity: 0.85;
+}
+
+.headerActions { display:flex; gap:0.75rem; flex-wrap: wrap; }
+
+.grid {
+  display:grid;
+  grid-template-columns: repeat(auto-fit, minmax(290px, 1fr));
+  gap: 1.1rem;
+}
+
+.cardShell {
+  animation: revealUp 520ms ease both;
+}
 
 .card {
-  background: var(--card-bg);
-  border-radius: 10px;
-  overflow: visible;
-  box-shadow: 0 8px 24px rgba(36,24,18,0.06);
-  transition: transform 280ms cubic-bezier(.2,.9,.2,1), box-shadow 280ms ease;
+  background: linear-gradient(180deg, rgba(255,255,255,0.96), rgba(243,247,252,0.9));
+  border-radius: 22px;
+  overflow: hidden;
+  box-shadow: var(--explore-shadow);
+  transition:
+    transform 280ms cubic-bezier(.2,.9,.2,1),
+    box-shadow 280ms ease,
+    border-radius 280ms ease;
   cursor: pointer;
   display: block;
   position: relative;
+  border: 1px solid var(--explore-border);
+  transform: rotate(var(--card-tilt, 0deg));
+  min-height: 100%;
 }
-.card:hover { transform: translateY(-8px); box-shadow: 0 28px 60px rgba(36,24,18,0.12); }
+
+.card:hover {
+  transform: translateY(-10px) rotate(0deg) scale(1.01);
+  box-shadow: 0 30px 70px rgba(3, 10, 18, 0.35);
+  border-radius: 18px 28px 18px 28px;
+}
+
+.card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(125deg, rgba(255,255,255,0.22), transparent 28%),
+    linear-gradient(205deg, transparent 0%, rgba(255,255,255,0.12) 100%);
+  pointer-events: none;
+}
 
 .card::after {
   content: '';
   position: absolute;
-  right: -28px;
-  top: -28px;
-  width: 96px;
-  height: 96px;
-  background: radial-gradient(circle at 30% 30%, rgba(255,255,255,0.12), transparent 30%);
-  transform: rotate(-10deg);
+  right: -18px;
+  top: 30px;
+  width: 54px;
+  height: 54px;
+  border-radius: 18px;
+  background: linear-gradient(135deg, rgba(255,255,255,0.42), rgba(255,255,255,0.08));
+  transform: rotate(22deg);
   pointer-events: none;
+  opacity: 0.7;
 }
 
-.cardTop { position: relative; height: 64px; display:flex; align-items:center; padding-left:1rem; background:transparent }
+.cardTop {
+  position: relative;
+  height: 72px;
+  display:flex;
+  align-items:center;
+  padding: 0 1rem;
+  background: transparent;
+  overflow: hidden;
+}
+
 .cardTop::before {
   content: '';
   position: absolute;
-  left: -50%; right: -50%; top: -20px; bottom: -20px;
-  background: linear-gradient(90deg, #8b5e3c, #c07b54);
-  transform: rotate(-8deg);
-  z-index: 0; filter: saturate(1.05) contrast(1.02);
+  left: -10%;
+  right: -14%;
+  top: -12px;
+  bottom: -12px;
+  transform: rotate(-7deg) skewX(-10deg);
+  border-radius: 24px;
+  z-index: 0;
+  filter: saturate(1.08) contrast(1.05);
 }
-.post .cardTop::before { background: linear-gradient(90deg, var(--accent-post-start), var(--accent-post-end)); }
-.project .cardTop::before { background: linear-gradient(90deg, var(--accent-project-start), var(--accent-project-end)); }
 
-.cardEmoji { font-size:22px; z-index:1; margin-right:0.6rem }
-.cardType { margin-left:0.5rem; font-size:12px; color:rgba(255,255,255,0.95); z-index:1; font-weight:600; padding:4px 8px; border-radius:999px; background: rgba(0,0,0,0.08); }
+.post .cardTop::before {
+  background: linear-gradient(95deg, #53c8d6 0%, #8dd7ff 48%, #d4f3ff 100%);
+}
 
-.cardBody { padding: 1rem 1.25rem 1.25rem }
-.cardTitle { font-size:1.25rem; margin:0 0 0.3rem 0; color:var(--text-strong); }
-.cardDesc { margin:0; color:var(--text-muted); }
+.project .cardTop::before {
+  background: linear-gradient(95deg, #ffb36f 0%, #ff8e7a 50%, #ffd3a4 100%);
+}
 
-/* small shimmer animation for entry */
-@keyframes revealUp { from { opacity:0; transform: translateY(8px); } to { opacity:1; transform: translateY(0); } }
-.grid > div { animation: revealUp 360ms ease both; }
+.cardGlow {
+  position: absolute;
+  right: 0.8rem;
+  top: 0.65rem;
+  width: 2rem;
+  height: 2rem;
+  border-radius: 999px;
+  background: radial-gradient(circle at 35% 35%, rgba(255,255,255,0.88), rgba(255,255,255,0.14) 56%, transparent 62%);
+  filter: blur(0.2px);
+  animation: pulse 3.8s ease-in-out infinite;
+}
+
+.cardEmoji {
+  font-size: 1.35rem;
+  z-index: 1;
+  margin-right: 0.6rem;
+  transform: translateY(-1px);
+}
+
+.cardType {
+  margin-left: auto;
+  font-size: 12px;
+  color: rgba(6, 24, 38, 0.88);
+  z-index: 1;
+  font-weight: 700;
+  padding: 4px 10px;
+  border-radius: 999px;
+  background: rgba(255,255,255,0.56);
+  backdrop-filter: blur(10px);
+}
+
+.cardBody {
+  padding: 1rem 1.2rem 1.3rem;
+}
+
+.cardTitle {
+  font-size: 1.2rem;
+  margin: 0 0 0.45rem 0;
+  color: #0a1723;
+}
+
+.cardDesc {
+  margin: 0;
+  color: #4a6273;
+}
+
+@keyframes revealUp {
+  from { opacity:0; transform: translateY(12px); }
+  to { opacity:1; transform: translateY(0); }
+}
+
+@keyframes drift {
+  0%, 100% { transform: translate3d(0, 0, 0) rotate(0deg); }
+  50% { transform: translate3d(0, -10px, 0) rotate(8deg); }
+}
+
+@keyframes pulse {
+  0%, 100% { transform: scale(1); opacity: 0.6; }
+  50% { transform: scale(1.08); opacity: 0.95; }
+}
 
 @media (max-width: 640px) {
-  .grid { grid-template-columns: 1fr }
-  .cardTop::before { left: -12%; right: -12%; }
-  .card::after { display:none }
+  .page { padding-top: 2.5rem; }
+  .grid { grid-template-columns: 1fr; gap: 0.9rem; }
+  .card { transform: none; }
+  .card:hover { transform: translateY(-6px) scale(1.005); }
+  .spark { width: 1.8rem; height: 1.8rem; font-size: 1rem; }
+  .sparkOne { top: 6%; left: 5%; }
+  .sparkTwo { top: 10%; right: 8%; }
+  .sparkThree { bottom: 14%; left: 8%; }
+  .sparkFour { bottom: 8%; right: 10%; }
 }
