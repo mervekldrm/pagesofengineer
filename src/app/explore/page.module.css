@@ -1,5 +1,5 @@
 /* Diagonal card design for Explore page — warmer, discovery-focused palette */
-:root {
+:global(:root) {
   --accent-post-start: #6a9edb;
   --accent-post-end: #8fc3ff;
   --accent-project-start: #f6a56a;
