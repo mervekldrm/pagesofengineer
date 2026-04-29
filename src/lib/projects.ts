@@ -20,7 +20,7 @@ function toRecord(row: any): ProjectRecord {
     category: row.category || 'Genel',
     tags: Array.isArray(row.tags) ? row.tags : row.tags || [],
     coverEmoji: row.coveremoji || row.coverEmoji || '📦',
-    published: row.published !== false,
+    published: row.published === true || row.published === 'true',
     readTime: row.readtime || row.readTime || 1,
     status: row.status || 'Bilgi yok',
     link: row.link || '',
