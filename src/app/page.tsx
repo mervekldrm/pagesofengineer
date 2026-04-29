@@ -1,12 +1,14 @@
 import Link from 'next/link'
-import type { PostMeta } from '../lib/shared'
+import type { PostMeta, ProjectMeta } from '../lib/shared'
 import { getAllPosts } from '../lib/posts'
+import { getAllProjects } from '../lib/projects'
 import styles from './page.module.css'
 
-export const dynamic = 'force-dynamic'
+export const revalidate = 60 // ISR - revalidate every 60 seconds
 
 export default async function Home() {
   const posts = (await getAllPosts()).slice(0, 3)
+  const projects = (await getAllProjects()).slice(0, 3)
 
   return (
     <div className={styles.page}>
@@ -76,6 +78,31 @@ export default async function Home() {
                 <div className={styles.postMeta}>
                   <span>{new Date(post.date).toLocaleDateString('tr-TR', { day: 'numeric', month: 'long', year: 'numeric' })}</span>
                   <span>{post.readTime} dk okuma</span>
+                </div>
+              </Link>
+            ))}
+          </div>
+        </section>
+      )}
+
+      {/* RECENT PROJECTS */}
+      {projects.length > 0 && (
+        <section className={styles.recentSection}>
+          <div className={styles.sectionHeader}>
+            <h2>Son Projeler 🚀</h2>
+            <Link href="/projects" className="btn btn-outline">Tümünü gör</Link>
+          </div>
+          <div className={styles.postsGrid}>
+            {projects.map((proj: ProjectMeta, i: number) => (
+              <Link key={proj.slug} href={`/projects/${proj.slug}`} className={styles.postCard} style={{ animationDelay: `${i * 0.1}s` }}>
+                <div className={styles.postEmoji}>{proj.coverEmoji}</div>
+                <span className="tag-pill">{proj.category}</span>
+                <h3 className={styles.postTitle}>{proj.title}</h3>
+                <p className={styles.postExcerpt}>{proj.excerpt}</p>
+                <div className={styles.postMeta}>
+                  <span>{proj.status}</span>
+                  <span>·</span>
+                  <span>{new Date(proj.date).toLocaleDateString('tr-TR', { day: 'numeric', month: 'long', year: 'numeric' })}</span>
                 </div>
               </Link>
             ))}
