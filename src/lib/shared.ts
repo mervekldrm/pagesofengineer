@@ -47,7 +47,7 @@ export function resolveCoverImageUrl(url?: string): string {
       const fileId = fileIdFromPath || fileIdFromQuery
 
       if (fileId) {
-        return `https://drive.google.com/uc?export=view&id=${fileId}`
+        return `https://drive.google.com/thumbnail?id=${fileId}&sz=w1600`
       }
     }
 

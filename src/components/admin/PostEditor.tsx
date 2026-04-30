@@ -139,7 +139,7 @@ export default function PostEditor({ initialPost, isEdit }: Props) {
             />
             {resolvedCoverImageUrl && (
               <div style={{ marginTop: '8px', borderRadius: '4px', overflow: 'hidden', maxHeight: '150px' }}>
-                <img src={resolvedCoverImageUrl} alt="Kapak Önizlemesi" style={{ width: '100%', height: 'auto', objectFit: 'cover' }} />
+                <img src={resolvedCoverImageUrl} alt="Kapak Önizlemesi" referrerPolicy="no-referrer" style={{ width: '100%', height: 'auto', objectFit: 'cover' }} />
               </div>
             )}
           </div>

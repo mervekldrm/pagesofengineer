@@ -32,7 +32,7 @@ export default async function PostPage({ params }: { params: { slug: string } })
         <header className={styles.header}>
           {coverImageUrl ? (
             <div className={styles.imageContainer}>
-              <img src={coverImageUrl} alt={post.title} className={styles.coverImage} />
+              <img src={coverImageUrl} alt={post.title} referrerPolicy="no-referrer" className={styles.coverImage} />
             </div>
           ) : (
             <div className={styles.emoji}>{post.coverEmoji}</div>
