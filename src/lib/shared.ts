@@ -6,6 +6,7 @@ export interface PostMeta {
   category: string
   tags: string[]
   coverEmoji?: string
+  coverImageUrl?: string
   published: boolean
   readTime?: number
 }

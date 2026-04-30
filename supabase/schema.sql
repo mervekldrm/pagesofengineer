@@ -6,6 +6,7 @@ create table if not exists posts (
   category text not null default 'Genel',
   tags jsonb not null default '[]'::jsonb,
   cover_emoji text not null default '📝',
+  cover_image_url text,
   published boolean not null default true,
   read_time integer not null default 1,
   content text not null default '',

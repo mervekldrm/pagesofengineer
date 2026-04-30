@@ -29,7 +29,13 @@ export default async function PostPage({ params }: { params: { slug: string } })
         <Link href="/blog" className={styles.back}>← Blog&apos;a dön</Link>
 
         <header className={styles.header}>
-          <div className={styles.emoji}>{post.coverEmoji}</div>
+          {post.coverImageUrl ? (
+            <div className={styles.imageContainer}>
+              <img src={post.coverImageUrl} alt={post.title} className={styles.coverImage} />
+            </div>
+          ) : (
+            <div className={styles.emoji}>{post.coverEmoji}</div>
+          )}
           <div className={styles.tags}>
             <span className="tag-pill">{post.category}</span>
             {post.tags.map((t: string) => (

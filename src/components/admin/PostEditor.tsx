@@ -34,6 +34,7 @@ export default function PostEditor({ initialPost, isEdit }: Props) {
   const [category, setCategory] = useState(initialPost?.category || 'Genel')
   const [tags, setTags] = useState((initialPost?.tags || []).join(', '))
   const [emoji, setEmoji] = useState(initialPost?.coverEmoji || '📝')
+  const [coverImageUrl, setCoverImageUrl] = useState(initialPost?.coverImageUrl || '')
   const [published, setPublished] = useState(initialPost?.published !== false)
   const [saving, setSaving] = useState(false)
   const [preview, setPreview] = useState(false)
@@ -74,6 +75,7 @@ export default function PostEditor({ initialPost, isEdit }: Props) {
           category,
           tags: tags.split(',').map((t: string) => t.trim()).filter(Boolean),
           coverEmoji: emoji,
+          coverImageUrl: coverImageUrl || undefined,
           published: isPublished,
           date: initialPost?.date || new Date().toISOString(),
         }),
@@ -126,7 +128,21 @@ export default function PostEditor({ initialPost, isEdit }: Props) {
               ))}
             </div>
           </div>
+          <div classNpak Resmi (URL)</label>
+            <input 
+              type="text" 
+              value={coverImageUrl} 
+              onChange={e => setCoverImageUrl(e.target.value)} 
+              placeholder="https://example.com/image.jpg" 
+            />
+            {coverImageUrl && (
+              <div style={{ marginTop: '8px', borderRadius: '4px', overflow: 'hidden', maxHeight: '150px' }}>
+                <img src={coverImageUrl} alt="Kapak Önizlemesi" style={{ width: '100%', height: 'auto', objectFit: 'cover' }} />
+              </div>
+            )}
+          </div>
           <div className={styles.sideSection}>
+            <label>Kaame={styles.sideSection}>
             <label>Kategori</label>
             <select value={category} onChange={e => setCategory(e.target.value)}>
               {CATEGORIES.map(c => <option key={c.name} value={c.name}>{c.emoji} {c.name}</option>)}
