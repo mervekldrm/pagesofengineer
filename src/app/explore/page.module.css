@@ -170,7 +170,7 @@
 }
 
 .post .cardTop::before {
-  background: linear-gradient(95deg, #cdd8ef 0%, #fdf0f7 48%, #fdf0f7 100%);
+  background: linear-gradient(95deg, #f0d6e9 0%, #ebd6ea 48%, #e1d7eb 100%);
 }
 
 .project .cardTop::before {
