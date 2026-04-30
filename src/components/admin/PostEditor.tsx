@@ -128,7 +128,8 @@ export default function PostEditor({ initialPost, isEdit }: Props) {
               ))}
             </div>
           </div>
-          <div classNpak Resmi (URL)</label>
+          <div className={styles.sideSection}>
+            <label>Kapak Resmi (URL)</label>
             <input 
               type="text" 
               value={coverImageUrl} 
@@ -142,7 +143,6 @@ export default function PostEditor({ initialPost, isEdit }: Props) {
             )}
           </div>
           <div className={styles.sideSection}>
-            <label>Kaame={styles.sideSection}>
             <label>Kategori</label>
             <select value={category} onChange={e => setCategory(e.target.value)}>
               {CATEGORIES.map(c => <option key={c.name} value={c.name}>{c.emoji} {c.name}</option>)}
