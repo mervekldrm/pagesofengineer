@@ -36,7 +36,7 @@ export default async function ExplorePage() {
       <div className="container">
         <div className={styles.header}>
           <div>
-            <h1>Ne Var?</h1>
+            <h1>Burada Neler Var?</h1>
           </div>
           <div className={styles.headerActions}>
             <Link href="/blog" className="btn btn-outline">Yazılara git</Link>
