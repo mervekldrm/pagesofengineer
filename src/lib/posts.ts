@@ -1,7 +1,7 @@
 import fs from 'fs/promises'
 import path from 'path'
 import matter from 'gray-matter'
-import { PostMeta, Post } from './shared'
+import { PostMeta, Post, resolveCoverImageUrl } from './shared'
 import { getSupabaseAdminClient } from './supabase'
 
 const postsDir = path.join(process.cwd(), 'content/posts')
@@ -173,7 +173,7 @@ export async function savePost(slug: string, frontmatter: Partial<PostMeta>, con
     excerpt: frontmatter.excerpt || '',
     category: frontmatter.category || 'Genel',
     tags: frontmatter.tags || [],
-    cover_image_url: frontmatter.coverImageUrl,
+    cover_image_url: resolveCoverImageUrl(frontmatter.coverImageUrl),
     coveremoji: frontmatter.coverEmoji || '📝',
     published: frontmatter.published !== false,
     readtime: Math.max(1, Math.ceil(content.split(/\s+/).filter(Boolean).length / 200)),

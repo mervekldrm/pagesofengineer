@@ -3,7 +3,7 @@ import { marked } from 'marked'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
 import styles from './page.module.css'
-import type { PostMeta } from '../../../lib/shared'
+import { resolveCoverImageUrl, type PostMeta } from '../../../lib/shared'
 
 export const revalidate = 60 // ISR - revalidate every 60 seconds
 
@@ -22,6 +22,7 @@ export default async function PostPage({ params }: { params: { slug: string } })
   if (!post || !post.published) notFound()
 
   const html = marked(post.content) as string
+  const coverImageUrl = resolveCoverImageUrl(post.coverImageUrl)
 
   return (
     <article className={styles.article}>
@@ -29,9 +30,9 @@ export default async function PostPage({ params }: { params: { slug: string } })
         <Link href="/blog" className={styles.back}>← Blog&apos;a dön</Link>
 
         <header className={styles.header}>
-          {post.coverImageUrl ? (
+          {coverImageUrl ? (
             <div className={styles.imageContainer}>
-              <img src={post.coverImageUrl} alt={post.title} className={styles.coverImage} />
+              <img src={coverImageUrl} alt={post.title} className={styles.coverImage} />
             </div>
           ) : (
             <div className={styles.emoji}>{post.coverEmoji}</div>

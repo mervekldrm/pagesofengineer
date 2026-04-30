@@ -2,7 +2,7 @@
 import { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { marked } from 'marked'
-import { slugify, type Post } from '../../lib/shared'
+import { resolveCoverImageUrl, slugify, type Post } from '../../lib/shared'
 import styles from './PostEditor.module.css'
 
 interface Props {
@@ -35,6 +35,7 @@ export default function PostEditor({ initialPost, isEdit }: Props) {
   const [tags, setTags] = useState((initialPost?.tags || []).join(', '))
   const [emoji, setEmoji] = useState(initialPost?.coverEmoji || '📝')
   const [coverImageUrl, setCoverImageUrl] = useState(initialPost?.coverImageUrl || '')
+  const resolvedCoverImageUrl = resolveCoverImageUrl(coverImageUrl)
   const [published, setPublished] = useState(initialPost?.published !== false)
   const [saving, setSaving] = useState(false)
   const [preview, setPreview] = useState(false)
@@ -75,7 +76,7 @@ export default function PostEditor({ initialPost, isEdit }: Props) {
           category,
           tags: tags.split(',').map((t: string) => t.trim()).filter(Boolean),
           coverEmoji: emoji,
-          coverImageUrl: coverImageUrl || undefined,
+          coverImageUrl: resolvedCoverImageUrl || undefined,
           published: isPublished,
           date: initialPost?.date || new Date().toISOString(),
         }),
@@ -136,9 +137,9 @@ export default function PostEditor({ initialPost, isEdit }: Props) {
               onChange={e => setCoverImageUrl(e.target.value)} 
               placeholder="https://example.com/image.jpg" 
             />
-            {coverImageUrl && (
+            {resolvedCoverImageUrl && (
               <div style={{ marginTop: '8px', borderRadius: '4px', overflow: 'hidden', maxHeight: '150px' }}>
-                <img src={coverImageUrl} alt="Kapak Önizlemesi" style={{ width: '100%', height: 'auto', objectFit: 'cover' }} />
+                <img src={resolvedCoverImageUrl} alt="Kapak Önizlemesi" style={{ width: '100%', height: 'auto', objectFit: 'cover' }} />
               </div>
             )}
           </div>

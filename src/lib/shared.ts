@@ -31,3 +31,28 @@ export function slugify(title: string): string {
     .replace(/\s+/g, '-')
     .replace(/-+/g, '-')
 }
+
+export function resolveCoverImageUrl(url?: string): string {
+  if (!url) return ''
+
+  const trimmedUrl = url.trim()
+  if (!trimmedUrl) return ''
+
+  try {
+    const parsedUrl = new URL(trimmedUrl)
+
+    if (parsedUrl.hostname.includes('drive.google.com')) {
+      const fileIdFromPath = parsedUrl.pathname.match(/\/file\/d\/([^/]+)/)?.[1]
+      const fileIdFromQuery = parsedUrl.searchParams.get('id')
+      const fileId = fileIdFromPath || fileIdFromQuery
+
+      if (fileId) {
+        return `https://drive.google.com/uc?export=view&id=${fileId}`
+      }
+    }
+
+    return trimmedUrl
+  } catch {
+    return trimmedUrl
+  }
+}
