@@ -10,7 +10,7 @@
   width: 90px;
   height: 90px;
   border-radius: 50%;
-  background: linear-gradient(135deg, var(--pink-soft), var(--blue-soft));
+  background: linear-gradient(135deg, var(--pink-soft), var(--lilac-soft));
   display: flex;
   align-items: center;
   justify-content: center;

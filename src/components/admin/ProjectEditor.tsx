@@ -111,7 +111,7 @@ export default function ProjectEditor({ initialProject, isEdit }: Props) {
           </div>
           <div className={styles.sideSection}>
             <label>Renk (CSS)</label>
-            <input value={color} onChange={e=>setColor(e.target.value)} placeholder="var(--green-soft)" />
+            <input value={color} onChange={e=>setColor(e.target.value)} placeholder="var(--mint-soft)" />
           </div>
           <div className={styles.sideSection}>
             <label className={styles.checkLabel}>

@@ -15,12 +15,19 @@
   --accent-200: #9a86ff; /* lighter accent */
   --accent-bg: #f5f3ff; /* pale accent background */
   --accent-rgb: 108,92,231; /* rgb for focus/border helpers */
-  --blue-soft: #c5d8f0;
-  --blue-pale: #eaf2fb;
+  --lilac-soft: #e7e0ff;
+  --cloud-pale: #f0f7ff;
   --pink-soft: #ffd6e7;
   --pink-pale: #fff5fb;
-  --green-soft: #00b894;
-  --purple-soft: #e7e0ff;
+  --mint-soft: #d4f4ea;
+  --peach-soft: #ffe1c7;
+  --sun-soft: #fff0b8;
+  --coral-soft: #ffd0ce;
+  /* Legacy aliases for compatibility */
+  --green-soft: var(--mint-soft);
+  --purple-soft: var(--lilac-soft);
+  --blue-soft: var(--cloud-pale);
+  --blue-pale: #f0f7ff;
   --text-dark: #0f1724;
   --text-mid: #334155;
   --text-muted: #64748b;
@@ -37,10 +44,10 @@
   --font-serif: 'Lora', serif;
   --font-hand: 'Caveat', cursive;
   /* Explore page accents */
-  --accent-post-start: #6a9edb;
-  --accent-post-end: #8fc3ff;
-  --accent-project-start: #7bcfc6;
-  --accent-project-end: #7ab8d9;
+  --accent-post-start: #8b7cf6;
+  --accent-post-end: #ff9f68;
+  --accent-project-start: #34d399;
+  --accent-project-end: #ff7aa2;
   --card-bg: rgba(255,255,255,0.96);
   --text-strong: #6b3b22;
   --text-muted: #7b5b4a;
@@ -62,9 +69,9 @@ body::before {
   position: fixed;
   inset: 0;
   background:
-    radial-gradient(ellipse at 10% 20%, rgba(197, 216, 240, 0.3) 0%, transparent 50%),
-    radial-gradient(ellipse at 90% 80%, rgba(245, 214, 232, 0.3) 0%, transparent 50%),
-    radial-gradient(ellipse at 50% 50%, rgba(253, 232, 216, 0.2) 0%, transparent 70%);
+    radial-gradient(ellipse at 10% 20%, rgba(231, 224, 255, 0.32) 0%, transparent 50%),
+    radial-gradient(ellipse at 90% 80%, rgba(255, 225, 199, 0.28) 0%, transparent 50%),
+    radial-gradient(ellipse at 50% 50%, rgba(212, 244, 234, 0.22) 0%, transparent 70%);
   pointer-events: none;
   z-index: 0;
 }
@@ -239,6 +246,42 @@ body[data-accent="coral"] {
 .post-accent-3 { --accent-primary: #ff6b6b; --accent-rgb: 255,107,107; }
 .post-accent-4 { --accent-primary: #ff9f43; --accent-rgb: 255,159,67; }
 .post-accent-5 { --accent-primary: #00a8ff; --accent-rgb: 0,168,255; }
+
+.post-tone-indigo {
+  --accent-primary: #6c5ce7;
+  --accent-200: #9a86ff;
+  --accent-bg: #f5f3ff;
+  --accent-rgb: 108,92,231;
+}
+.post-tone-mint {
+  --accent-primary: #00b894;
+  --accent-200: #62d6ba;
+  --accent-bg: #f2fff9;
+  --accent-rgb: 0,184,148;
+}
+.post-tone-coral {
+  --accent-primary: #ff6b6b;
+  --accent-200: #ff9f9f;
+  --accent-bg: #fff4f4;
+  --accent-rgb: 255,107,107;
+}
+.post-tone-mango {
+  --accent-primary: #ff9f43;
+  --accent-200: #ffbc7c;
+  --accent-bg: #fff7ed;
+  --accent-rgb: 255,159,67;
+}
+
+/* Fallback surfaces that are safe to use across layouts */
+.surface-cloud {
+  background: linear-gradient(135deg, var(--cloud-pale), var(--pink-pale));
+}
+.surface-mint {
+  background: linear-gradient(135deg, var(--mint-soft), var(--accent-bg));
+}
+.surface-coral {
+  background: linear-gradient(135deg, var(--coral-soft), var(--peach-soft));
+}
 
 /* Animated accent utility */
 .accent-animated {

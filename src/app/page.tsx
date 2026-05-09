@@ -116,11 +116,11 @@ export default async function Home() {
           <h2>Neler ilgimi çekiyor? 🔭</h2>
           <div className={styles.interests}>
             {[
-              { icon: '☕', label: 'Kahve & Kod', color: 'var(--green-soft)' },
-              { icon: '🛠️', label: 'Kurcaladıklarım', color: 'var(--blue-soft)' },
+              { icon: '☕', label: 'Kahve & Kod', color: 'var(--mint-soft)' },
+              { icon: '🛠️', label: 'Kurcaladıklarım', color: 'var(--lilac-soft)' },
               { icon: '🧠', label: 'Notlar & Fikirler', color: 'var(--pink-soft)' },
               { icon: '📖', label: 'Okuduklarım', color: 'var(--accent-bg)' },
-              { icon: '🎧', label: 'Müzik', color: 'var(--purple-soft)' },
+              { icon: '🎧', label: 'Müzik', color: 'var(--peach-soft)' },
               { icon: '🌫️', label: 'Düşünceler', color: 'var(--cream2)' },
             ].map(item => (
               <div key={item.label} className={styles.interestChip} style={{ background: item.color }}>

@@ -1,4 +1,167 @@
-.article { padding: 3rem 0 5rem; }
+.article {
+  padding: 2rem 0 5rem;
+  background:
+    radial-gradient(circle at 50% 0%, rgba(var(--accent-rgb), 0.10) 0%, transparent 32%),
+    radial-gradient(circle at 0% 100%, rgba(255, 159, 67, 0.08) 0%, transparent 30%),
+    linear-gradient(180deg, rgba(var(--accent-rgb), 0.02), transparent 180px);
+}
+
+.layout {
+  max-width: 1320px;
+  margin: 0 auto;
+  padding: 0 1.5rem;
+  display: grid;
+  grid-template-columns: minmax(160px, 1fr) minmax(0, 760px) minmax(160px, 1fr);
+  gap: 1.5rem;
+  align-items: start;
+}
+
+.mainColumn {
+  min-width: 0;
+}
+
+.sideRail {
+  position: sticky;
+  top: 88px;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.railCard {
+  background: rgba(255,255,255,0.9);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-sm);
+  overflow: hidden;
+}
+
+.railCardCloud {
+  background: linear-gradient(135deg, var(--cloud-pale), var(--pink-pale));
+}
+
+.railCardMint {
+  background: linear-gradient(135deg, var(--mint-soft), var(--accent-bg));
+}
+
+.railCardCoral {
+  background: linear-gradient(135deg, var(--coral-soft), var(--peach-soft));
+}
+
+.railCardInner {
+  padding: 1rem;
+}
+
+.railHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  margin-bottom: 0.75rem;
+}
+
+.railLabel {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  font-size: 11px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--accent-primary);
+}
+
+.railPill {
+  font-size: 11px;
+  font-weight: 700;
+  border-radius: 999px;
+  padding: 0.35rem 0.7rem;
+  color: var(--accent-primary);
+  background: var(--accent-bg);
+  border: 1px solid var(--border2);
+}
+
+.railNote {
+  font-size: 13px;
+  color: var(--text-mid);
+  line-height: 1.65;
+}
+
+.railStats {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 0.75rem;
+}
+
+.railStat {
+  background: linear-gradient(180deg, rgba(var(--accent-rgb), 0.10), rgba(var(--accent-rgb), 0.05));
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 0.9rem;
+}
+
+.railStatValue {
+  display: block;
+  font-size: 18px;
+  font-weight: 800;
+  color: var(--accent-primary);
+  margin-bottom: 0.2rem;
+}
+
+.railStatLabel {
+  font-size: 11px;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.railGlow {
+  min-height: 120px;
+  background:
+    radial-gradient(circle at 20% 20%, rgba(var(--accent-rgb), 0.35), transparent 42%),
+    radial-gradient(circle at 80% 70%, rgba(255, 159, 67, 0.28), transparent 36%),
+    linear-gradient(135deg, rgba(var(--accent-rgb), 0.12), rgba(255, 159, 67, 0.10));
+  position: relative;
+}
+
+.railGlow::before,
+.railGlow::after {
+  content: '';
+  position: absolute;
+  border-radius: 999px;
+  filter: blur(2px);
+}
+
+.railGlow::before {
+  width: 42px;
+  height: 42px;
+  right: 20px;
+  top: 18px;
+  background: rgba(255,255,255,0.65);
+}
+
+.railGlow::after {
+  width: 18px;
+  height: 18px;
+  left: 18px;
+  bottom: 20px;
+  background: rgba(255,255,255,0.75);
+}
+
+.railTags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.railMiniTag {
+  font-size: 12px;
+  padding: 0.45rem 0.7rem;
+  border-radius: 999px;
+  background: rgba(255,255,255,0.8);
+  color: var(--text-mid);
+  border: 1px solid var(--border);
+}
 
 .back {
   display: inline-flex;
@@ -89,3 +252,21 @@
   border-radius: var(--radius-lg);
 }
 .footer a { font-weight: 600; }
+
+@media (max-width: 1100px) {
+  .layout {
+    grid-template-columns: minmax(0, 1fr);
+    max-width: 780px;
+  }
+  .sideRail { display: none; }
+}
+
+@media (max-width: 640px) {
+  .layout {
+    padding: 0 1rem;
+  }
+  .header,
+  .content {
+    padding: 1.5rem;
+  }
+}
