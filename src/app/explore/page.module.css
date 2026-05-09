@@ -227,3 +227,28 @@
   animation: pulse 3.8s ease-in-out infinite;
 }
 
+/* Card content spacing and typography tweaks for readability */
+.cardBody {
+  padding: 1rem 1.25rem 1.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
+.cardTitle {
+  font-family: var(--font-serif);
+  font-size: 20px;
+  color: var(--accent-primary);
+  line-height: 1.25;
+  margin: 0;
+  word-break: break-word;
+}
+
+.cardDesc {
+  font-size: 14px;
+  color: rgba(244,247,251,0.9);
+  line-height: 1.6;
+  margin: 0;
+  overflow-wrap: anywhere;
+}
+

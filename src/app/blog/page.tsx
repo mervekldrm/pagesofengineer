@@ -17,6 +17,13 @@ function BlogPageContent() {
   const selectedTopic = TOPIC_PALETTE.some(topic => topic.key === requestedTopic)
     ? (requestedTopic as TopicKey)
     : undefined
+  const requestedTag = searchParams.get('tag') || ''
+
+  useEffect(() => {
+    // sync selectedTags with query param when present
+    if (requestedTag) setSelectedTags([requestedTag])
+    else setSelectedTags([])
+  }, [requestedTag])
 
   useEffect(() => {
     const fetchPosts = async () => {
@@ -101,6 +108,17 @@ function BlogPageContent() {
               {topic.label}
             </Link>
           ))}
+
+          {/* automatic tag chips */}
+          {allTags.map(tag => (
+            <Link
+              key={`tag-${tag}`}
+              href={`/blog?tag=${encodeURIComponent(tag)}`}
+              className={`${styles.topicFilterChip} ${requestedTag === tag ? styles.topicFilterChipActive : ''}`}
+            >
+              {tag}
+            </Link>
+          ))}
         </div>
 
         {posts.length === 0 ? (
@@ -109,24 +127,7 @@ function BlogPageContent() {
           </div>
         ) : (
           <>
-            {/* Tag Filter */}
-            {allTags.length > 0 && (
-              <div className={styles.tagFilter}>
-                <div className={styles.tagFilterLabel}>Etiketlere göre filtrele:</div>
-                <div className={styles.tagCheckboxes}>
-                  {allTags.map(tag => (
-                    <label key={tag} className={styles.tagCheckbox}>
-                      <input
-                        type="checkbox"
-                        checked={selectedTags.includes(tag)}
-                        onChange={() => toggleTag(tag)}
-                      />
-                      <span>{tag}</span>
-                    </label>
-                  ))}
-                </div>
-              </div>
-            )}
+            {/* tag checkboxes removed — tags are available as chips above */}
 
             {filteredPosts.length === 0 ? (
               <div className={styles.empty}>
