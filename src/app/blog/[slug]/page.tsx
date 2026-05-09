@@ -34,20 +34,11 @@ export default async function PostPage({ params }: { params: { slug: string } })
   return (
     <article className={`${styles.article} ${toneClass}`}>
       <div className={styles.layout}>
-        <aside className={styles.sideRail} aria-hidden="true">
-          <div className={`${styles.railCard} ${styles.railGlow} ${styles.railCardCloud}`} />
-          <div className={`${styles.railCard} ${styles.railCardMint}`}>
-            <div className={styles.railCardInner}>
-              <div className={styles.railHeader}>
-                <span className={styles.railLabel}>Yazı tonu</span>
-                <span className={styles.railPill}>{post.category}</span>
-              </div>
-              <p className={styles.railNote}>
-                {post.excerpt || 'Bu yazı, yumuşak bir ritimde okunacak şekilde tasarlandı.'}
-              </p>
-            </div>
-          </div>
-        </aside>
+        <div className={styles.decorLeft} aria-hidden="true">
+          <span className={styles.floatDotOne} />
+          <span className={styles.floatDotTwo} />
+          <span className={styles.floatPill}>●</span>
+        </div>
 
         <div className={styles.mainColumn}>
           <Link href="/blog" className={styles.back}>← Blog&apos;a dön</Link>
@@ -82,39 +73,11 @@ export default async function PostPage({ params }: { params: { slug: string } })
           </footer>
         </div>
 
-        <aside className={styles.sideRail} aria-hidden="true">
-          <div className={`${styles.railCard} ${styles.railCardCoral}`}>
-            <div className={styles.railCardInner}>
-              <div className={styles.railHeader}>
-                <span className={styles.railLabel}>Hızlı bakış</span>
-                <span className={styles.railPill}>{post.readTime} dk</span>
-              </div>
-              <div className={styles.railStats}>
-                <div className={styles.railStat}>
-                  <span className={styles.railStatValue}>{post.tags.length}</span>
-                  <span className={styles.railStatLabel}>Etiket</span>
-                </div>
-                <div className={styles.railStat}>
-                  <span className={styles.railStatValue}>{post.category}</span>
-                  <span className={styles.railStatLabel}>Kategori</span>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div className={styles.railCard}>
-            <div className={styles.railCardInner}>
-              <div className={styles.railHeader}>
-                <span className={styles.railLabel}>Renk notları</span>
-                <span className={styles.railPill}>Soft</span>
-              </div>
-              <div className={styles.railTags}>
-                {post.tags.slice(0, 4).map((tag: string) => (
-                  <span key={tag} className={styles.railMiniTag}>{tag}</span>
-                ))}
-              </div>
-            </div>
-          </div>
-        </aside>
+        <div className={styles.decorRight} aria-hidden="true">
+          <span className={styles.glowOrb} />
+          <span className={styles.glowOrbAlt} />
+          <span className={styles.glowRibbon} />
+        </div>
       </div>
     </article>
   )

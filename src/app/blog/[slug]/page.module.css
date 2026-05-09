@@ -4,6 +4,7 @@
     radial-gradient(circle at 50% 0%, rgba(var(--accent-rgb), 0.10) 0%, transparent 32%),
     radial-gradient(circle at 0% 100%, rgba(255, 159, 67, 0.08) 0%, transparent 30%),
     linear-gradient(180deg, rgba(var(--accent-rgb), 0.02), transparent 180px);
+  overflow: hidden;
 }
 
 .layout {
@@ -11,156 +12,86 @@
   margin: 0 auto;
   padding: 0 1.5rem;
   display: grid;
-  grid-template-columns: minmax(160px, 1fr) minmax(0, 760px) minmax(160px, 1fr);
-  gap: 1.5rem;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 760px) minmax(0, 1fr);
+  gap: 0.75rem;
   align-items: start;
 }
 
 .mainColumn {
   min-width: 0;
+  grid-column: 2;
 }
 
-.sideRail {
+.decorLeft,
+.decorRight {
   position: sticky;
   top: 88px;
   display: flex;
   flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 70vh;
+  pointer-events: none;
+}
+
+.decorLeft {
   gap: 1rem;
 }
 
-.railCard {
-  background: rgba(255,255,255,0.9);
-  border: 1px solid var(--border);
-  border-radius: var(--radius-xl);
-  box-shadow: var(--shadow-sm);
-  overflow: hidden;
+.decorRight {
+  gap: 1.2rem;
 }
 
-.railCardCloud {
-  background: linear-gradient(135deg, var(--cloud-pale), var(--pink-pale));
-}
-
-.railCardMint {
-  background: linear-gradient(135deg, var(--mint-soft), var(--accent-bg));
-}
-
-.railCardCoral {
-  background: linear-gradient(135deg, var(--coral-soft), var(--peach-soft));
-}
-
-.railCardInner {
-  padding: 1rem;
-}
-
-.railHeader {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 0.75rem;
-  margin-bottom: 0.75rem;
-}
-
-.railLabel {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.45rem;
-  font-size: 11px;
-  font-weight: 800;
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-  color: var(--accent-primary);
-}
-
-.railPill {
-  font-size: 11px;
-  font-weight: 700;
-  border-radius: 999px;
-  padding: 0.35rem 0.7rem;
-  color: var(--accent-primary);
-  background: var(--accent-bg);
-  border: 1px solid var(--border2);
-}
-
-.railNote {
-  font-size: 13px;
-  color: var(--text-mid);
-  line-height: 1.65;
-}
-
-.railStats {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 0.75rem;
-}
-
-.railStat {
-  background: linear-gradient(180deg, rgba(var(--accent-rgb), 0.10), rgba(var(--accent-rgb), 0.05));
-  border: 1px solid var(--border);
-  border-radius: var(--radius-lg);
-  padding: 0.9rem;
-}
-
-.railStatValue {
+.floatDotOne,
+.floatDotTwo,
+.glowOrb,
+.glowOrbAlt,
+.glowRibbon,
+.floatPill {
   display: block;
-  font-size: 18px;
-  font-weight: 800;
-  color: var(--accent-primary);
-  margin-bottom: 0.2rem;
-}
-
-.railStatLabel {
-  font-size: 11px;
-  color: var(--text-muted);
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-}
-
-.railGlow {
-  min-height: 120px;
-  background:
-    radial-gradient(circle at 20% 20%, rgba(var(--accent-rgb), 0.35), transparent 42%),
-    radial-gradient(circle at 80% 70%, rgba(255, 159, 67, 0.28), transparent 36%),
-    linear-gradient(135deg, rgba(var(--accent-rgb), 0.12), rgba(255, 159, 67, 0.10));
-  position: relative;
-}
-
-.railGlow::before,
-.railGlow::after {
-  content: '';
-  position: absolute;
   border-radius: 999px;
-  filter: blur(2px);
 }
 
-.railGlow::before {
-  width: 42px;
-  height: 42px;
-  right: 20px;
-  top: 18px;
-  background: rgba(255,255,255,0.65);
-}
-
-.railGlow::after {
+.floatDotOne {
   width: 18px;
   height: 18px;
-  left: 18px;
-  bottom: 20px;
-  background: rgba(255,255,255,0.75);
+  background: rgba(var(--accent-rgb), 0.35);
+  box-shadow: 0 0 0 12px rgba(var(--accent-rgb), 0.06);
 }
 
-.railTags {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.5rem;
+.floatDotTwo {
+  width: 10px;
+  height: 10px;
+  background: rgba(255, 159, 67, 0.78);
+  box-shadow: 0 0 0 10px rgba(255, 159, 67, 0.08);
 }
 
-.railMiniTag {
-  font-size: 12px;
-  padding: 0.45rem 0.7rem;
+.floatPill {
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.22em;
+  color: rgba(var(--accent-rgb), 0.55);
+  text-transform: uppercase;
+}
+
+.glowOrb {
+  width: 140px;
+  height: 140px;
+  background: radial-gradient(circle at 35% 35%, rgba(255,255,255,0.9), rgba(var(--accent-rgb), 0.10) 45%, rgba(255,255,255,0) 72%);
+  filter: blur(1px);
+}
+
+.glowOrbAlt {
+  width: 96px;
+  height: 96px;
+  background: radial-gradient(circle at 40% 40%, rgba(255,255,255,0.75), rgba(255, 159, 67, 0.18) 48%, rgba(255,255,255,0) 74%);
+}
+
+.glowRibbon {
+  width: 12px;
+  height: 180px;
   border-radius: 999px;
-  background: rgba(255,255,255,0.8);
-  color: var(--text-mid);
-  border: 1px solid var(--border);
+  background: linear-gradient(180deg, rgba(var(--accent-rgb), 0.0), rgba(var(--accent-rgb), 0.20), rgba(255, 159, 67, 0.14), rgba(255,255,255,0));
 }
 
 .back {
@@ -258,7 +189,13 @@
     grid-template-columns: minmax(0, 1fr);
     max-width: 780px;
   }
-  .sideRail { display: none; }
+  .decorLeft,
+  .decorRight {
+    display: none;
+  }
+  .mainColumn {
+    grid-column: 1;
+  }
 }
 
 @media (max-width: 640px) {
