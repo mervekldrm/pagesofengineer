@@ -10,7 +10,7 @@
   margin-bottom: 2rem;
   transition: color 0.2s;
 }
-.back:hover { color: var(--orange); }
+.back:hover { color: var(--accent-primary); }
 
 .header {
   background: white;
@@ -36,7 +36,7 @@
 .title {
   font-family: var(--font-serif);
   font-size: clamp(26px, 4vw, 38px);
-  color: var(--orange);
+  color: var(--accent-primary);
   line-height: 1.25;
   margin-bottom: 0.8rem;
 }
@@ -71,7 +71,7 @@
   font-size: 15px;
   color: var(--text-muted);
   padding: 1.5rem;
-  background: var(--orange-pale);
+  background: var(--accent-bg);
   border-radius: var(--radius-lg);
 }
 .footer a { font-weight: 600; }

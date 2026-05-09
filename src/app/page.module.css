@@ -50,14 +50,14 @@
 .heroCenter { display: flex; flex-direction: column; gap: 1rem; }
 
 .heroCard {
-  background: var(--orange-pale);
+  background: var(--accent-bg);
   border-radius: var(--radius-xl);
   border: 1px solid var(--border2);
   padding: 2rem 1.8rem;
 }
 .heroTitle {
   font-size: clamp(28px, 4vw, 42px);
-  color: var(--orange);
+  color: var(--accent-primary);
   margin-bottom: 0.6rem;
   line-height: 1.15;
 }
@@ -81,7 +81,7 @@
   width: 48px;
   height: 48px;
   border-radius: 50%;
-  background: var(--orange);
+  background: var(--accent-primary);
   color: white;
   font-family: var(--font-serif);
   font-size: 22px;
@@ -92,12 +92,12 @@
 }
 .bioName {
   font-weight: 700;
-  color: var(--orange);
+  color: var(--accent-primary);
   margin-bottom: 0.3rem;
   font-size: 15px;
 }
 .bioText { font-size: 14px; color: var(--text-mid); line-height: 1.6; margin-bottom: 0.6rem; }
-.bioLink { font-size: 13px; font-weight: 700; color: var(--orange); text-decoration: none; }
+.bioLink { font-size: 13px; font-weight: 700; color: var(--accent-primary); text-decoration: none; }
 .bioLink:hover { text-decoration: underline; }
 
 /* RIGHT */
@@ -135,7 +135,7 @@
 .infoTag {
   font-size: 12px;
   font-weight: 700;
-  color: var(--orange);
+  color: var(--accent-primary);
   background: white;
   padding: 4px 10px;
   border-radius: 100px;
@@ -177,7 +177,7 @@
 .postCard:hover { box-shadow: var(--shadow-md); transform: translateY(-3px); }
 
 .postEmoji { font-size: 32px; }
-.postTitle { font-family: var(--font-serif); font-size: 18px; color: var(--orange); line-height: 1.35; }
+.postTitle { font-family: var(--font-serif); font-size: 18px; color: var(--accent-primary); line-height: 1.35; }
 .postExcerpt { font-size: 13.5px; color: var(--text-muted); line-height: 1.6; flex: 1; }
 .postMeta { display: flex; justify-content: space-between; font-size: 12px; color: var(--text-muted); margin-top: auto; padding-top: 0.5rem; border-top: 1px solid var(--border); }
 

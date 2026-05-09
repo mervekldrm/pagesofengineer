@@ -24,7 +24,7 @@
   font-family: var(--font-serif);
   font-size: 18px;
   font-weight: 600;
-  color: var(--orange);
+  color: var(--accent-primary);
   text-decoration: none;
 }
 
@@ -55,13 +55,13 @@
 }
 
 .link:hover {
-  background: var(--orange-pale);
-  color: var(--orange);
+  background: var(--accent-bg);
+  color: var(--accent-primary);
 }
 
 .active {
-  background: var(--orange-pale);
-  color: var(--orange);
+  background: var(--accent-bg);
+  color: var(--accent-primary);
 }
 
 @media (max-width: 640px) {

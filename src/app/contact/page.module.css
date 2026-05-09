@@ -24,14 +24,14 @@
 .linkIcon { font-size: 28px; }
 .linkLabel { font-weight: 700; font-size: 16px; color: var(--text-dark); }
 .linkHandle { font-size: 13px; color: var(--text-muted); margin-top: 2px; }
-.arrow { font-size: 20px; color: var(--orange); transition: transform 0.2s; }
+.arrow { font-size: 20px; color: var(--accent-primary); transition: transform 0.2s; }
 .linkCard:hover .arrow { transform: translateX(4px); }
 
 .note {
   display: flex;
   gap: 1rem;
   align-items: flex-start;
-  background: var(--orange-pale);
+  background: var(--accent-bg);
   border: 1px solid var(--border2);
   border-radius: var(--radius-lg);
   padding: 1.4rem;

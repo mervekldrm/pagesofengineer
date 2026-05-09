@@ -119,7 +119,7 @@ export default async function Home() {
               { icon: '☕', label: 'Kahve & Kod', color: 'var(--green-soft)' },
               { icon: '🛠️', label: 'Kurcaladıklarım', color: 'var(--blue-soft)' },
               { icon: '🧠', label: 'Notlar & Fikirler', color: 'var(--pink-soft)' },
-              { icon: '📖', label: 'Okuduklarım', color: 'var(--orange-pale)' },
+              { icon: '📖', label: 'Okuduklarım', color: 'var(--accent-bg)' },
               { icon: '🎧', label: 'Müzik', color: 'var(--purple-soft)' },
               { icon: '🌫️', label: 'Düşünceler', color: 'var(--cream2)' },
             ].map(item => (

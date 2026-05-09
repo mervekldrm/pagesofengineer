@@ -35,10 +35,10 @@
 .card h3 { font-size: 18px; margin-bottom: 0.8rem; }
 .card p { color: var(--text-mid); line-height: 1.8; margin-bottom: 0.8rem; font-size: 16px; }
 .card p:last-child { margin-bottom: 0; }
-.card strong { color: var(--orange); }
+.card strong { color: var(--accent-primary); }
 .card ul { list-style: none; display: flex; flex-direction: column; gap: 0.4rem; }
 .card ul li { font-size: 14px; color: var(--text-mid); padding-left: 1.2rem; position: relative; }
-.card ul li::before { content: '›'; color: var(--orange); position: absolute; left: 0; font-weight: 700; }
+.card ul li::before { content: '›'; color: var(--accent-primary); position: absolute; left: 0; font-weight: 700; }
 
 .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.2rem; }
 
@@ -46,7 +46,7 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  background: var(--orange-pale);
+  background: var(--accent-bg);
   border-color: var(--border2);
 }
 .contact p { margin: 0; font-weight: 600; color: var(--text-mid); }

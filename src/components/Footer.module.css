@@ -11,7 +11,7 @@
 .brand {
   font-family: var(--font-serif);
   font-size: 20px;
-  color: var(--orange);
+  color: var(--accent-primary);
   font-weight: 600;
   margin-bottom: 0.4rem;
   display: flex;
@@ -42,7 +42,7 @@
   transition: color 0.2s;
 }
 
-.links a:hover { color: var(--orange); }
+.links a:hover { color: var(--accent-primary); }
 
 .copy {
   font-size: 12px;
@@ -68,7 +68,7 @@
   transition: background 0.15s, color 0.15s, transform 0.12s;
 }
 
-.socialLink:hover { background: rgba(0,0,0,0.03); color: var(--orange); transform: translateY(-2px); }
+.socialLink:hover { background: rgba(0,0,0,0.03); color: var(--accent-primary); transform: translateY(-2px); }
 
 .socialIcon { display: block; color: inherit; }
 .socialLabel { font-size: 12px; color: inherit; }

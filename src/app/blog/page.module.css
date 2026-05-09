@@ -33,7 +33,7 @@
 .featured:hover { box-shadow: var(--shadow-lg); transform: translateY(-2px); }
 
 .featuredEmoji { font-size: 64px; line-height: 1; }
-.featuredTitle { font-family: var(--font-serif); font-size: 30px; color: var(--orange); margin: 0.5rem 0; line-height: 1.25; }
+.featuredTitle { font-family: var(--font-serif); font-size: 30px; color: var(--accent-primary); margin: 0.5rem 0; line-height: 1.25; }
 .featuredExcerpt { font-size: 16px; color: var(--text-mid); line-height: 1.7; margin-bottom: 1rem; }
 
 /* GRID */
@@ -57,7 +57,7 @@
 
 .cardEmoji { font-size: 32px; line-height: 1; padding-top: 2px; }
 .cardBody { display: flex; flex-direction: column; gap: 0.4rem; }
-.cardTitle { font-family: var(--font-serif); font-size: 17px; color: var(--orange); line-height: 1.35; }
+.cardTitle { font-family: var(--font-serif); font-size: 17px; color: var(--accent-primary); line-height: 1.35; }
 .cardExcerpt { font-size: 13px; color: var(--text-muted); line-height: 1.6; flex: 1; }
 
 .meta {
@@ -115,7 +115,7 @@
 
 .tagCheckbox input[type="checkbox"] {
   cursor: pointer;
-  accent-color: var(--orange);
+  accent-color: var(--accent-primary);
   width: 18px;
   height: 18px;
 }
@@ -125,7 +125,7 @@
 }
 
 .tagCheckbox input[type="checkbox"]:checked + span {
-  color: var(--orange);
+  color: var(--accent-primary);
   font-weight: 600;
 }
 
