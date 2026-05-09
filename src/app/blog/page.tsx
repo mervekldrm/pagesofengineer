@@ -44,8 +44,8 @@ function BlogPageContent() {
         setPosts(data)
         
         // Extract all unique tags
-        const tags = Array.from(new Set(data.flatMap((p: PostMeta) => p.tags))) as string[]
-        setAllTags(tags.sort())
+        const tags = Array.from(new Set(data.flatMap((p: PostMeta) => p.tags || []))) as string[]
+        setAllTags(tags.map(tag => tag.trim()).filter(Boolean).sort())
       } catch (error) {
         console.error('Failed to fetch posts:', error)
       } finally {
@@ -64,20 +64,15 @@ function BlogPageContent() {
     })
   })
 
+  const normalizedRequestedTag = normalize(requestedTag)
+
   const filteredPosts = posts.filter(post => {
-    const tagMatch = selectedTags.length === 0 || selectedTags.some(tag => post.tags.includes(tag))
+    const postTags = (post.tags || []).map(tag => normalize(tag))
+    const tagMatch = selectedTags.length === 0 || selectedTags.some(tag => postTags.includes(normalize(tag)))
     const categoryMatch = !selectedCategory || post.category === selectedCategory
     const topicMatch = !selectedTopic || inferTopicKey(post.category) === selectedTopic
     return tagMatch && categoryMatch && topicMatch
   })
-
-  const toggleTag = (tag: string) => {
-    setSelectedTags(prev =>
-      prev.includes(tag)
-        ? prev.filter(t => t !== tag)
-        : [...prev, tag]
-    )
-  }
 
   if (loading) {
     return (
@@ -116,7 +111,8 @@ function BlogPageContent() {
           </div>
         )}
 
-        <div className={styles.topicFilterRow}>
+        <div className={styles.topicFilterSection}>
+          <div className={styles.topicFilterLabel}>Kategoriler</div>
           {TOPIC_PALETTE.map((topic) => (
             <Link
               key={topic.key}
@@ -126,18 +122,22 @@ function BlogPageContent() {
               {topic.label}
             </Link>
           ))}
-
-          {/* automatic tag chips */}
-          {visibleTags.map(tag => (
-            <Link
-              key={`tag-${tag}`}
-              href={`/blog?tag=${encodeURIComponent(tag)}`}
-              className={`${styles.topicFilterChip} ${requestedTag === tag ? styles.topicFilterChipActive : ''}`}
-            >
-              {tag}
-            </Link>
-          ))}
         </div>
+
+        {visibleTags.length > 0 && (
+          <div className={styles.topicFilterSection}>
+            <div className={styles.topicFilterLabel}>Etiketler</div>
+            {visibleTags.map(tag => (
+              <Link
+                key={`tag-${tag}`}
+                href={`/blog?tag=${encodeURIComponent(tag)}`}
+                className={`${styles.topicFilterChip} ${normalizedRequestedTag === normalize(tag) ? styles.topicFilterChipActive : ''}`}
+              >
+                {tag}
+              </Link>
+            ))}
+          </div>
+        )}
 
         {posts.length === 0 ? (
           <div className={styles.empty}>
