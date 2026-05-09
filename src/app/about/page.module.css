@@ -47,7 +47,7 @@
   align-items: center;
   justify-content: space-between;
   background: var(--orange-pale);
-  border-color: rgba(212, 98, 42, 0.2);
+  border-color: var(--border2);
 }
 .contact p { margin: 0; font-weight: 600; color: var(--text-mid); }
 

@@ -52,7 +52,7 @@
 .heroCard {
   background: var(--orange-pale);
   border-radius: var(--radius-xl);
-  border: 1px solid rgba(212, 98, 42, 0.2);
+  border: 1px solid var(--border2);
   padding: 2rem 1.8rem;
 }
 .heroTitle {

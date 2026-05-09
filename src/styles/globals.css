@@ -7,13 +7,13 @@
 }
 
 :root {
-  /* Warm cream + orange palette — mevcut tasarımdan alındı */
-  --cream: #fdf6ee;
-  --cream2: #faebd7;
+  /* Soft modern palette — teal / sage accents */
+  --cream: #fdfcfb;
+  --cream2: #fbf6f3;
   --warm-white: #fffdf9;
-  --orange: #d4622a;
-  --orange-light: #e8874a;
-  --orange-pale: #fde8d8;
+  --orange: #5fa79f; /* primary accent (was orange) */
+  --orange-light: #8ecbc5; /* lighter accent */
+  --orange-pale: #eef9f8; /* pale background for accents */
   --blue-soft: #c5d8f0;
   --blue-pale: #eaf2fb;
   --pink-soft: #f5d6e8;
@@ -23,11 +23,11 @@
   --text-dark: #2d2010;
   --text-mid: #5a3e28;
   --text-muted: #9a7860;
-  --border: rgba(212, 98, 42, 0.15);
-  --border2: rgba(212, 98, 42, 0.25);
-  --shadow-sm: 0 2px 8px rgba(180, 120, 60, 0.1);
-  --shadow-md: 0 4px 20px rgba(180, 120, 60, 0.15);
-  --shadow-lg: 0 8px 32px rgba(180, 120, 60, 0.18);
+  --border: rgba(95, 167, 159, 0.12);
+  --border2: rgba(95, 167, 159, 0.18);
+  --shadow-sm: 0 2px 8px rgba(95, 167, 159, 0.06);
+  --shadow-md: 0 4px 20px rgba(95, 167, 159, 0.10);
+  --shadow-lg: 0 8px 32px rgba(95, 167, 159, 0.12);
   --radius-sm: 8px;
   --radius-md: 14px;
   --radius-lg: 20px;
@@ -38,8 +38,8 @@
   /* Explore page accents */
   --accent-post-start: #6a9edb;
   --accent-post-end: #8fc3ff;
-  --accent-project-start: #f6a56a;
-  --accent-project-end: #f07b7b;
+  --accent-project-start: #7bcfc6;
+  --accent-project-end: #7ab8d9;
   --card-bg: rgba(255,255,255,0.96);
   --text-strong: #6b3b22;
   --text-muted: #7b5b4a;
@@ -133,7 +133,7 @@ img { max-width: 100%; height: auto; }
   font-weight: 600;
   background: var(--orange-pale);
   color: var(--orange);
-  border: 1px solid rgba(212, 98, 42, 0.2);
+  border: 1px solid var(--border2);
 }
 
 /* ANIMATIONS */
@@ -200,7 +200,7 @@ textarea, select {
 }
 input:focus, textarea:focus, select:focus {
   border-color: var(--orange);
-  box-shadow: 0 0 0 3px rgba(212, 98, 42, 0.1);
+  box-shadow: 0 0 0 3px rgba(95, 167, 159, 0.08);
 }
 label {
   display: block;
