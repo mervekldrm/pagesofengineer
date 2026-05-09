@@ -1,12 +1,12 @@
 'use client'
 
 import Link from 'next/link'
-import { useEffect, useState } from 'react'
+import { Suspense, useEffect, useState } from 'react'
 import { useSearchParams } from 'next/navigation'
 import { TOPIC_PALETTE, inferTopicKey, topicLabelFromKey, type PostMeta, type TopicKey } from '../../lib/shared'
 import styles from './page.module.css'
 
-export default function BlogPage() {
+function BlogPageContent() {
   const searchParams = useSearchParams()
   const [posts, setPosts] = useState<PostMeta[]>([])
   const [loading, setLoading] = useState(true)
@@ -174,5 +174,26 @@ export default function BlogPage() {
         )}
       </div>
     </div>
+  )
+}
+
+function BlogPageFallback() {
+  return (
+    <div className={styles.page}>
+      <div className="container">
+        <div className={styles.header}>
+          <h1>Blog ✍️</h1>
+          <p className={styles.subtitle}>Yükleniyor...</p>
+        </div>
+      </div>
+    </div>
+  )
+}
+
+export default function BlogPage() {
+  return (
+    <Suspense fallback={<BlogPageFallback />}>
+      <BlogPageContent />
+    </Suspense>
   )
 }
