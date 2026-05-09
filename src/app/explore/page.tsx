@@ -25,7 +25,7 @@ function slugifyCategory(input: string) {
 }
 
 type ExploreItem = {
-  __type: 'post' | 'project' | 'theme'
+  __type: 'post' | 'project'
   slug: string
   title: string
   excerpt: string
@@ -73,23 +73,6 @@ export default async function ExplorePage({ searchParams }: ExplorePageProps) {
     postsByCategory.set(key, list)
   }
 
-  const themeItems: ExploreItem[] = Array.from(postsByCategory.entries())
-    .map(([category, list]) => {
-      const latest = list[0]
-      return {
-        __type: 'theme' as const,
-        slug: `theme-${slugifyCategory(category)}`,
-        title: `${category} Dosyası`,
-        excerpt: `${list.length} yazı içerir. ${latest?.title ? `Son eklenen: ${latest.title}` : ''}`.trim(),
-        date: latest?.date || new Date().toISOString(),
-        coverEmoji: '🧭',
-        href: `/blog?category=${encodeURIComponent(category)}`,
-        typeLabel: 'Tema',
-      }
-    })
-    .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
-    .slice(0, 6)
-
   const items: ExploreItem[] = [
     ...filteredPosts.map((p) => ({
       __type: 'post' as const,
@@ -111,7 +94,6 @@ export default async function ExplorePage({ searchParams }: ExplorePageProps) {
       href: `/projects/${p.slug}`,
       typeLabel: 'Proje',
     })),
-    ...themeItems,
   ]
 
   items.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
@@ -143,18 +125,7 @@ export default async function ExplorePage({ searchParams }: ExplorePageProps) {
           </div>
         </div>
 
-        <div className={styles.topicRail}>
-          {TOPIC_PALETTE.map((topic) => (
-            <Link
-              key={topic.key}
-              href={`/explore?topic=${topic.key}`}
-              className={`${styles.topicChip} ${selectedTopic === topic.key ? styles.topicChipActive : ''}`}
-              style={{ ['--topic-color' as any]: topic.color }}
-            >
-              {topic.label}
-            </Link>
-          ))}
-        </div>
+        {/* topic rail removed — use header chips */}
 
         {items.length === 0 ? (
           <div className={styles.emptyState}>
@@ -175,7 +146,7 @@ export default async function ExplorePage({ searchParams }: ExplorePageProps) {
             >
               <Link
                 href={it.href}
-                className={`${styles.card} ${it.__type === 'post' ? styles.post : it.__type === 'project' ? styles.project : styles.theme}`}
+                className={`${styles.card} ${it.__type === 'post' ? styles.post : styles.project}`}
               >
                 <div className={styles.cardTop}>
                   <span className={styles.cardGlow} aria-hidden="true" />
