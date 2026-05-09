@@ -1,5 +1,5 @@
 import Link from 'next/link'
-import type { PostMeta, ProjectMeta } from '../lib/shared'
+import { TOPIC_PALETTE, type PostMeta, type ProjectMeta } from '../lib/shared'
 import { getAllPosts } from '../lib/posts'
 import { getAllProjects } from '../lib/projects'
 import styles from './page.module.css'
@@ -10,26 +10,94 @@ export default async function Home() {
   const posts = (await getAllPosts()).slice(0, 3)
   const projects = (await getAllProjects()).slice(0, 3)
 
+  const paletteSwatches = TOPIC_PALETTE.map(topic => ({
+    label: topic.label,
+    color: topic.color,
+    href: `/explore?topic=${topic.key}`,
+  }))
+
+  const categoryLinks = [
+    { label: 'Yazılar', href: '/blog', color: 'var(--accent-bg)', description: 'Son notlar ve fikirler' },
+    ...TOPIC_PALETTE.map((topic) => ({
+      label: topic.label,
+      href: `/explore?topic=${topic.key}`,
+      color: topic.color,
+      description: 'Yazi + proje seckisi',
+    })),
+    { label: 'Projeler', href: '/projects', color: 'var(--mint-soft)', description: 'Ürettiklerim' },
+    { label: 'Hakkımda', href: '/about', color: 'var(--peach-soft)', description: 'Kimim, ne yapıyorum' },
+    { label: 'İletişim', href: '/contact', color: 'var(--coral-soft)', description: 'Bir mesaj bırak' },
+    { label: 'Keşfet', href: '/explore', color: 'var(--sun-soft)', description: 'Karışık keşif alanı' },
+  ]
+
+  const heroSignals = [
+    {
+      title: 'Bugün',
+      value: posts[0]?.title ?? 'Yeni fikirler',
+      emoji: '✦',
+      href: '/blog',
+    },
+    {
+      title: 'Yakın proje',
+      value: projects[0]?.title ?? 'Bir şeyler inşa ediliyor',
+      emoji: '◌',
+      href: '/projects',
+    },
+    {
+      title: 'Ritim',
+      value: `${posts.length + projects.length} canlı parça`,
+      emoji: '✶',
+      href: '/explore',
+    },
+  ]
+
   return (
     <div className={styles.page}>
       {/* HERO */}
       <section className={styles.hero}>
         <div className={styles.heroLeft}>
           <div className={styles.heroDesk}>
-            <div className={styles.deskItems}>
-              <span className={styles.deskItem} style={{ animationDelay: '0s' }}>☕</span>
-              <span className={styles.deskItem} style={{ animationDelay: '0.4s' }}>📓</span>
-              <span className={styles.deskItem} style={{ animationDelay: '0.8s' }}>💻</span>
-              <span className={styles.deskItem} style={{ animationDelay: '1.2s' }}>🔬</span>
-              <span className={styles.deskItem} style={{ animationDelay: '1.6s' }}>✏️</span>
+            <div className={styles.heroPoster}>
+              <div className={styles.posterStacks}>
+                <span className={styles.posterStackOne} />
+                <span className={styles.posterStackTwo} />
+                <span className={styles.posterStackThree} />
+              </div>
+              <div className={styles.posterPalette}>
+                {paletteSwatches.map((swatch, index) => (
+                  <Link
+                    key={swatch.label}
+                    href={swatch.href}
+                    className={styles.posterSwatchLink}
+                    title={`${swatch.label} seçimini aç`}
+                    aria-label={`${swatch.label} seçimine git`}
+                  >
+                    <span className={styles.posterSwatch} style={{ background: swatch.color, animationDelay: `${index * 0.08}s` }} />
+                  </Link>
+                ))}
+              </div>
             </div>
           </div>
         </div>
 
         <div className={styles.heroCenter}>
           <div className={styles.heroCard}>
+            <div className={styles.heroRibbon} />
             <h1 className={styles.heroTitle}>Mühendislik<br />Defterim</h1>
             <p className={styles.heroTagline}>Kodla yaz, kalemle çiz, kelimelerle anlat.</p>
+            <div className={styles.heroMiniLine}>
+              {paletteSwatches.map((swatch) => (
+                <Link
+                  key={swatch.label}
+                  href={swatch.href}
+                  className={styles.heroMiniSwatchLink}
+                  title={`${swatch.label} seçimini aç`}
+                  aria-label={`${swatch.label} seçimine git`}
+                >
+                  <span className={styles.heroMiniSwatch} style={{ background: swatch.color }} />
+                </Link>
+              ))}
+            </div>
           </div>
           <div className={styles.heroBio}>
             <div className={styles.bioAvatar}>M</div>
@@ -57,6 +125,17 @@ export default async function Home() {
               Eğer burada bir fikirle, yazıyla ya da projeyle bağ kurarsan — ne mutlu bana.
             </p>
             <Link href="/explore" className="btn btn-primary">Ne var? — Daha fazlası için göz at</Link>
+          </div>
+          <div className={styles.heroSignals}>
+            {heroSignals.map((signal) => (
+              <Link key={signal.title} href={signal.href} className={styles.signalCard} aria-label={`${signal.title} bölümüne git`}>
+                <span className={styles.signalEmoji}>{signal.emoji}</span>
+                <div>
+                  <p className={styles.signalTitle}>{signal.title}</p>
+                  <p className={styles.signalValue}>{signal.value}</p>
+                </div>
+              </Link>
+            ))}
           </div>
         </div>
       </section>
@@ -113,23 +192,21 @@ export default async function Home() {
       {/* QUICK ABOUT */}
       <section className={styles.quickAbout}>
         <div className={styles.aboutCard}>
-          <h2>Neler ilgimi çekiyor? 🔭</h2>
+          <h2>Keşfedeceklerim 🔭</h2>
           <div className={styles.interests}>
-            {[
-              { icon: '☕', label: 'Kahve & Kod', color: 'var(--mint-soft)' },
-              { icon: '🛠️', label: 'Kurcaladıklarım', color: 'var(--lilac-soft)' },
-              { icon: '🧠', label: 'Notlar & Fikirler', color: 'var(--pink-soft)' },
-              { icon: '📖', label: 'Okuduklarım', color: 'var(--accent-bg)' },
-              { icon: '🎧', label: 'Müzik', color: 'var(--peach-soft)' },
-              { icon: '🌫️', label: 'Düşünceler', color: 'var(--cream2)' },
-            ].map(item => (
-              <div key={item.label} className={styles.interestChip} style={{ background: item.color }}>
-                <span>{item.icon}</span>
-                <span>{item.label}</span>
-              </div>
+            {categoryLinks.map(item => (
+              <Link
+                key={item.label}
+                href={item.href}
+                className={styles.interestChip}
+                style={{ background: item.color }}
+                aria-label={`${item.label} sayfasına git`}
+              >
+                <span className={styles.interestTitle}>{item.label}</span>
+                <span className={styles.interestDescription}>{item.description}</span>
+              </Link>
             ))}
           </div>
-          <Link href="/explore" className="btn btn-ghost">Ne var? — Daha fazlası için göz at</Link>
         </div>
       </section>
     </div>

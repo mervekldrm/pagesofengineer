@@ -21,6 +21,77 @@ export interface ProjectMeta extends PostMeta {
   color: string
 }
 
+export type TopicKey = 'dusunce' | 'siir' | 'teknik' | 'biyoinformatik' | 'kariyer' | 'gunluk'
+
+export const TOPIC_PALETTE: ReadonlyArray<{ key: TopicKey; label: string; color: string; aliases: readonly string[] }> = [
+  {
+    key: 'dusunce',
+    label: 'Düşünce',
+    color: 'var(--accent-primary)',
+    aliases: ['dusunce', 'dusunceler', 'fikir', 'fikirler', 'deneme', 'yorum', 'thought'],
+  },
+  {
+    key: 'siir',
+    label: 'Şiir',
+    color: 'var(--mint-soft)',
+    aliases: ['siir', 'poem', 'poetry', 'edebiyat'],
+  },
+  {
+    key: 'teknik',
+    label: 'Teknik',
+    color: 'var(--peach-soft)',
+    aliases: ['teknik', 'software', 'yazilim', 'coding', 'code', 'muhendislik', 'engineering', 'algoritma'],
+  },
+  {
+    key: 'biyoinformatik',
+    label: 'Biyoinformatik',
+    color: 'var(--coral-soft)',
+    aliases: ['biyoinformatik', 'bioinformatics', 'genomik', 'genomics', 'biyoenformatik'],
+  },
+  {
+    key: 'kariyer',
+    label: 'Kariyer',
+    color: 'var(--sun-soft)',
+    aliases: ['kariyer', 'career', 'staj', 'internship', 'is-hayati', 'is'],
+  },
+  {
+    key: 'gunluk',
+    label: 'Günlük',
+    color: 'var(--cloud-pale)',
+    aliases: ['gunluk', 'yasam', 'hayat', 'daily', 'notlar', 'notes'],
+  },
+]
+
+function normalizeText(value: string): string {
+  return value
+    .toLowerCase()
+    .replace(/ğ/g, 'g')
+    .replace(/ü/g, 'u')
+    .replace(/ş/g, 's')
+    .replace(/ı/g, 'i')
+    .replace(/ö/g, 'o')
+    .replace(/ç/g, 'c')
+    .trim()
+}
+
+export function inferTopicKey(category?: string): TopicKey | undefined {
+  const normalized = normalizeText(category || '')
+  if (!normalized) return undefined
+
+  for (const topic of TOPIC_PALETTE) {
+    if (topic.aliases.some(alias => normalized.includes(alias))) {
+      return topic.key
+    }
+  }
+
+  return undefined
+}
+
+export function topicLabelFromKey(key?: string): string {
+  const found = TOPIC_PALETTE.find(topic => topic.key === key)
+  return found?.label || 'Kategori'
+}
+
 export function slugify(title: string): string {
   return title
     .toLowerCase()

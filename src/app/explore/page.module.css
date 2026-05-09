@@ -89,10 +89,83 @@
 
 .headerActions { display:flex; gap:0.75rem; flex-wrap: wrap; }
 
+.activeFilterRow {
+  margin-top: 0.7rem;
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+  flex-wrap: wrap;
+}
+
+.activeFilterLabel {
+  font-size: 0.82rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--explore-soft);
+}
+
+.clearFilterLink {
+  color: var(--explore-text);
+  font-size: 0.86rem;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.topicRail {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+  margin: 0 0 1.2rem;
+}
+
+.topicChip {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 999px;
+  padding: 0.45rem 0.8rem;
+  font-size: 0.84rem;
+  text-decoration: none;
+  color: var(--explore-text);
+  border: 1px solid var(--explore-border);
+  background: color-mix(in srgb, var(--topic-color, #ffffff) 28%, transparent);
+  transition: transform 180ms ease, filter 180ms ease, border-color 180ms ease;
+}
+
+.topicChip:hover,
+.topicChip:focus-visible {
+  transform: translateY(-2px);
+  filter: brightness(1.08);
+  border-color: rgba(255, 255, 255, 0.36);
+  outline: none;
+}
+
+.topicChipActive {
+  border-color: rgba(255, 255, 255, 0.52);
+  box-shadow: 0 8px 22px rgba(3, 10, 18, 0.2);
+}
+
 .grid {
   display:grid;
   grid-template-columns: repeat(auto-fit, minmax(290px, 1fr));
   gap: 1.1rem;
+}
+
+.emptyState {
+  border: 1px solid var(--explore-border);
+  background: rgba(255, 255, 255, 0.08);
+  color: var(--explore-text);
+  border-radius: 16px;
+  padding: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.emptyState p {
+  margin: 0;
+  color: var(--explore-soft);
 }
 
 .cardShell {
@@ -177,6 +250,10 @@
   background: linear-gradient(95deg, #a8cbe9 0%, #bdd1ea 50%, #ced8ee 100%);
 }
 
+.theme .cardTop::before {
+  background: linear-gradient(95deg, #f7d8a6 0%, #f3c1ce 50%, #e6c7f3 100%);
+}
+
 .cardGlow {
   position: absolute;
   right: 0.8rem;
@@ -189,63 +266,3 @@
   animation: pulse 3.8s ease-in-out infinite;
 }
 
-.cardEmoji {
-  font-size: 1.35rem;
-  z-index: 1;
-  margin-right: 0.6rem;
-  transform: translateY(-1px);
-}
-
-.cardType {
-  margin-left: auto;
-  font-size: 12px;
-  color: rgba(6, 24, 38, 0.88);
-  z-index: 1;
-  font-weight: 700;
-  padding: 4px 10px;
-  border-radius: 999px;
-  background: rgba(255,255,255,0.56);
-  backdrop-filter: blur(10px);
-}
-
-.cardBody {
-  padding: 1rem 1.2rem 1.3rem;
-}
-
-.cardTitle {
-  font-size: 1.2rem;
-  margin: 0 0 0.45rem 0;
-  color: #0a1723;
-}
-
-.cardDesc {
-  margin: 0;
-  color: #4a6273;
-}
-
-@keyframes revealUp {
-  from { opacity:0; transform: translateY(12px); }
-  to { opacity:1; transform: translateY(0); }
-}
-
-@keyframes drift {
-  0%, 100% { transform: translate3d(0, 0, 0) rotate(0deg); }
-  50% { transform: translate3d(0, -10px, 0) rotate(8deg); }
-}
-
-@keyframes pulse {
-  0%, 100% { transform: scale(1); opacity: 0.6; }
-  50% { transform: scale(1.08); opacity: 0.95; }
-}
-
-@media (max-width: 640px) {
-  .page { padding-top: 2.5rem; }
-  .grid { grid-template-columns: 1fr; gap: 0.9rem; }
-  .card { transform: none; }
-  .card:hover { transform: translateY(-6px) scale(1.005); }
-  .spark { width: 1.8rem; height: 1.8rem; font-size: 1rem; }
-  .sparkOne { top: 6%; left: 5%; }
-  .sparkTwo { top: 10%; right: 8%; }
-  .sparkThree { bottom: 14%; left: 8%; }
-  .sparkFour { bottom: 8%; right: 10%; }
-}

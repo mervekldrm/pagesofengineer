@@ -1,13 +1,33 @@
 import styles from './page.module.css'
 import Link from 'next/link'
+import { TOPIC_PALETTE, inferTopicKey, topicLabelFromKey, type TopicKey } from '../../lib/shared'
 
 export const metadata = { title: 'Projeler — Pages of Engineer' }
 export const revalidate = 60 // ISR - revalidate every 60 seconds
 
 import { getAllProjects } from '../../lib/projects'
 
-export default async function ProjectsPage() {
+type ProjectsPageProps = {
+  searchParams?: {
+    topic?: string
+    category?: string
+  }
+}
+
+export default async function ProjectsPage({ searchParams }: ProjectsPageProps) {
   const projects = await getAllProjects()
+
+  const requestedTopic = (searchParams?.topic || '').toLowerCase()
+  const selectedTopic = TOPIC_PALETTE.some(topic => topic.key === requestedTopic)
+    ? (requestedTopic as TopicKey)
+    : undefined
+  const selectedCategory = (searchParams?.category || '').trim()
+
+  const filteredProjects = projects.filter((project) => {
+    if (selectedTopic) return inferTopicKey(project.category) === selectedTopic
+    if (selectedCategory) return project.category === selectedCategory
+    return true
+  })
 
   return (
     <div className={styles.page}>
@@ -17,8 +37,28 @@ export default async function ProjectsPage() {
           <p className={styles.subtitle}>Ellerin değdiği, zihnin şekillendirdiği şeyler.</p>
         </div>
 
+        {(selectedTopic || selectedCategory) && (
+          <div className={styles.activeCategoryRow}>
+            <span className={styles.activeCategoryLabel}>Seçili:</span>
+            <span className="tag-pill">{selectedTopic ? topicLabelFromKey(selectedTopic) : selectedCategory}</span>
+            <Link href="/projects" className={styles.clearCategoryLink}>Temizle</Link>
+          </div>
+        )}
+
+        <div className={styles.topicFilterRow}>
+          {TOPIC_PALETTE.map((topic) => (
+            <Link
+              key={topic.key}
+              href={`/projects?topic=${topic.key}`}
+              className={`${styles.topicFilterChip} ${selectedTopic === topic.key ? styles.topicFilterChipActive : ''}`}
+            >
+              {topic.label}
+            </Link>
+          ))}
+        </div>
+
         <div className={styles.grid}>
-          {projects.map((p, i) => (
+          {filteredProjects.map((p, i) => (
             <div key={p.slug} style={{ animationDelay: `${i * 0.1}s` }}>
               <Link href={`/projects/${p.slug}`} className={styles.card}>
                 <div className={styles.cardTop} style={{ background: p.color }}>
@@ -43,6 +83,13 @@ export default async function ProjectsPage() {
             </div>
           ))}
         </div>
+
+        {filteredProjects.length === 0 && (
+          <div className={styles.emptyState}>
+            <p>Bu filtrede proje bulunamadı.</p>
+            <Link href="/projects" className="btn btn-outline">Tümünü göster</Link>
+          </div>
+        )}
       </div>
     </div>
   )

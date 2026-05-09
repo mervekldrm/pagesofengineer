@@ -2,14 +2,21 @@
 
 import Link from 'next/link'
 import { useEffect, useState } from 'react'
-import { PostMeta } from '../../lib/shared'
+import { useSearchParams } from 'next/navigation'
+import { TOPIC_PALETTE, inferTopicKey, topicLabelFromKey, type PostMeta, type TopicKey } from '../../lib/shared'
 import styles from './page.module.css'
 
 export default function BlogPage() {
+  const searchParams = useSearchParams()
   const [posts, setPosts] = useState<PostMeta[]>([])
   const [loading, setLoading] = useState(true)
   const [selectedTags, setSelectedTags] = useState<string[]>([])
   const [allTags, setAllTags] = useState<string[]>([])
+  const selectedCategory = searchParams.get('category') || ''
+  const requestedTopic = (searchParams.get('topic') || '').toLowerCase()
+  const selectedTopic = TOPIC_PALETTE.some(topic => topic.key === requestedTopic)
+    ? (requestedTopic as TopicKey)
+    : undefined
 
   useEffect(() => {
     const fetchPosts = async () => {
@@ -32,9 +39,12 @@ export default function BlogPage() {
     fetchPosts()
   }, [])
 
-  const filteredPosts = selectedTags.length === 0 
-    ? posts 
-    : posts.filter(post => selectedTags.some(tag => post.tags.includes(tag)))
+  const filteredPosts = posts.filter(post => {
+    const tagMatch = selectedTags.length === 0 || selectedTags.some(tag => post.tags.includes(tag))
+    const categoryMatch = !selectedCategory || post.category === selectedCategory
+    const topicMatch = !selectedTopic || inferTopicKey(post.category) === selectedTopic
+    return tagMatch && categoryMatch && topicMatch
+  })
 
   const toggleTag = (tag: string) => {
     setSelectedTags(prev =>
@@ -65,6 +75,34 @@ export default function BlogPage() {
           <p className={styles.subtitle}>Öğrendiklerim, denediklerim, düşündüklerim.</p>
         </div>
 
+        {selectedCategory && (
+          <div className={styles.activeCategoryRow}>
+            <span className={styles.activeCategoryLabel}>Kategori:</span>
+            <span className="tag-pill">{selectedCategory}</span>
+            <Link href="/blog" className={styles.clearCategoryLink}>Temizle</Link>
+          </div>
+        )}
+
+        {selectedTopic && (
+          <div className={styles.activeCategoryRow}>
+            <span className={styles.activeCategoryLabel}>Konu:</span>
+            <span className="tag-pill">{topicLabelFromKey(selectedTopic)}</span>
+            <Link href="/blog" className={styles.clearCategoryLink}>Temizle</Link>
+          </div>
+        )}
+
+        <div className={styles.topicFilterRow}>
+          {TOPIC_PALETTE.map((topic) => (
+            <Link
+              key={topic.key}
+              href={`/blog?topic=${topic.key}`}
+              className={`${styles.topicFilterChip} ${selectedTopic === topic.key ? styles.topicFilterChipActive : ''}`}
+            >
+              {topic.label}
+            </Link>
+          ))}
+        </div>
+
         {posts.length === 0 ? (
           <div className={styles.empty}>
             <p>📭 Henüz blog yazısı yok. Yakında burada bir şeyler belirecek!</p>
@@ -92,7 +130,7 @@ export default function BlogPage() {
 
             {filteredPosts.length === 0 ? (
               <div className={styles.empty}>
-                <p>🔍 Seçilen etiketlere uygun yazı bulunamadı.</p>
+                <p>🔍 Seçilen filtrelere uygun yazı bulunamadı.</p>
               </div>
             ) : (
               <>
