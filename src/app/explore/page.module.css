@@ -246,9 +246,15 @@
 
 .cardDesc {
   font-size: 14px;
-  color: rgba(244,247,251,0.9);
+  color: var(--text-mid);
   line-height: 1.6;
   margin: 0;
   overflow-wrap: anywhere;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  /* standard property for broader compatibility */
+  line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
 }
 

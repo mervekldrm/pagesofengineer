@@ -125,6 +125,14 @@
 .cardTitle { font-family: var(--font-serif); font-size: 17px; color: var(--accent-primary); line-height: 1.35; }
 .cardExcerpt { font-size: 13px; color: var(--text-muted); line-height: 1.6; flex: 1; }
 
+/* Ensure blog card excerpts are visible and constrained */
+.cardExcerpt {
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
 .meta {
   display: flex;
   gap: 0.6rem;

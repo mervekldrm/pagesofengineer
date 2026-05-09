@@ -19,6 +19,16 @@ function BlogPageContent() {
     : undefined
   const requestedTag = searchParams.get('tag') || ''
 
+  const normalize = (value: string) => value
+    .toLowerCase()
+    .replace(/ğ/g, 'g')
+    .replace(/ü/g, 'u')
+    .replace(/ş/g, 's')
+    .replace(/ı/g, 'i')
+    .replace(/ö/g, 'o')
+    .replace(/ç/g, 'c')
+    .trim()
+
   useEffect(() => {
     // sync selectedTags with query param when present
     if (requestedTag) setSelectedTags([requestedTag])
@@ -45,6 +55,14 @@ function BlogPageContent() {
     
     fetchPosts()
   }, [])
+
+  const visibleTags = allTags.filter(tag => {
+    const normalizedTag = normalize(tag)
+    return !TOPIC_PALETTE.some(topic => {
+      if (normalize(topic.label) === normalizedTag) return true
+      return topic.aliases.some(alias => normalize(alias) === normalizedTag)
+    })
+  })
 
   const filteredPosts = posts.filter(post => {
     const tagMatch = selectedTags.length === 0 || selectedTags.some(tag => post.tags.includes(tag))
@@ -110,7 +128,7 @@ function BlogPageContent() {
           ))}
 
           {/* automatic tag chips */}
-          {allTags.map(tag => (
+          {visibleTags.map(tag => (
             <Link
               key={`tag-${tag}`}
               href={`/blog?tag=${encodeURIComponent(tag)}`}
