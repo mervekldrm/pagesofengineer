@@ -30,8 +30,8 @@ export default async function Home() {
 
   const heroHighlights = [
     {
-      title: 'Bugün',
-      value: posts[0]?.title ?? 'Yeni fikirler',
+      title: 'En Son',
+      value: posts[0]?.title ?? 'Henüz yayınlanan yazı yok',
     },
     {
       title: 'Yakın proje',
