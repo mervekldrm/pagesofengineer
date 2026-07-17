@@ -29,7 +29,6 @@ export default function ProjectEditor({ initialProject, isEdit }: Props) {
   const [slug, setSlug] = useState(initialProject?.slug || '')
   const [excerpt, setExcerpt] = useState(initialProject?.excerpt || '')
   const [content, setContent] = useState(initialProject?.content || '')
-  const [category, setCategory] = useState(initialProject?.category || 'Genel')
   const [tags, setTags] = useState((initialProject?.tags || []).join(', '))
   const [emoji, setEmoji] = useState(initialProject?.coverEmoji || '📦')
   const [status, setStatus] = useState(initialProject?.status || 'Bilgi yok')
@@ -57,7 +56,7 @@ export default function ProjectEditor({ initialProject, isEdit }: Props) {
         body: JSON.stringify({
           slug,
           frontmatter: {
-            title, excerpt, category, tags: tags.split(',').map((t:string)=>t.trim()).filter(Boolean),
+            title, excerpt, tags: tags.split(',').map((t:string)=>t.trim()).filter(Boolean),
             coverEmoji: emoji, status, link, color, published: isPublished
           },
           content,
@@ -96,10 +95,8 @@ export default function ProjectEditor({ initialProject, isEdit }: Props) {
             <input value={emoji} onChange={e=>setEmoji(e.target.value)} />
           </div>
           <div className={styles.sideSection}>
-            <label>Kategori</label>
-            <select value={category} onChange={e => setCategory(e.target.value)}>
-              {CATEGORIES.map(c => <option key={c.name} value={c.name}>{c.emoji} {c.name}</option>)}
-            </select>
+            <label>Etiketler (virgülle ayır)</label>
+            <input value={tags} onChange={e=>setTags(e.target.value)} placeholder="react, supabase, tasarım" />
           </div>
           <div className={styles.sideSection}>
             <label>Durum</label>

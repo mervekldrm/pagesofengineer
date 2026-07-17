@@ -1,6 +1,5 @@
 import styles from './page.module.css'
 import Link from 'next/link'
-import { TOPIC_PALETTE, inferTopicKey, topicLabelFromKey, type TopicKey } from '../../lib/shared'
 import FilterToolbar from '../../components/FilterToolbar'
 
 export const metadata = { title: 'Projeler — Pages of Engineer' }
@@ -10,26 +9,20 @@ import { getAllProjects } from '../../lib/projects'
 
 type ProjectsPageProps = {
   searchParams?: {
-    topic?: string
-    category?: string
+    tag?: string
   }
 }
 
 export default async function ProjectsPage({ searchParams }: ProjectsPageProps) {
   const projects = await getAllProjects()
 
-  const requestedTopic = (searchParams?.topic || '').toLowerCase()
-  const selectedTopic = TOPIC_PALETTE.some(topic => topic.key === requestedTopic)
-    ? (requestedTopic as TopicKey)
-    : undefined
-  const selectedCategory = (searchParams?.category || '').trim()
+  const selectedTag = (searchParams?.tag || '').trim()
+  const allTags = Array.from(new Set(projects.flatMap(project => project.tags || []))).filter(Boolean).sort()
 
   const filteredProjects = projects.filter((project) => {
-    if (selectedTopic) return inferTopicKey(project.category) === selectedTopic
-    if (selectedCategory) return project.category === selectedCategory
-    return true
+    return !selectedTag || project.tags.includes(selectedTag)
   })
-  const activeFilterLabel = selectedTopic ? topicLabelFromKey(selectedTopic) : selectedCategory
+  const activeFilterLabel = selectedTag
 
   return (
     <div className={styles.page}>
@@ -44,11 +37,11 @@ export default async function ProjectsPage({ searchParams }: ProjectsPageProps) 
           clearHref="/projects"
           sections={[
             {
-              label: 'Kategoriler',
-              items: TOPIC_PALETTE.map((topic) => ({
-                label: topic.label,
-                href: `/projects?topic=${topic.key}`,
-                active: selectedTopic === topic.key,
+              label: 'Etiketler',
+              items: allTags.map((tag) => ({
+                label: tag,
+                href: `/projects?tag=${encodeURIComponent(tag)}`,
+                active: selectedTag === tag,
               })),
             },
           ]}

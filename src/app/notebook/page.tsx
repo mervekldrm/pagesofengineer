@@ -33,7 +33,7 @@ export default async function NotebookPage() {
               <Link key={post.slug} href={`/notebook/${post.slug}`} className={styles.noteCard}>
                 <div className={styles.noteTop}>
                   <span className={styles.noteEmoji}>{post.coverEmoji || '🗒️'}</span>
-                  <span className="tag-pill">{post.category}</span>
+                  {post.tags.map((tag) => <span key={tag} className="tag-pill">{tag}</span>)}
                 </div>
                 <h2>{post.title}</h2>
                 <p>{post.excerpt || 'Notu okumak icin tikla.'}</p>

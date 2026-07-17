@@ -52,7 +52,7 @@ export default async function PostPage({ params }: { params: { slug: string } })
               <div className={styles.emoji}>{post.coverEmoji}</div>
             )}
             <div className={styles.tags}>
-              <span className="tag-pill">{post.category}</span>
+              {post.tags.map((tag) => <span key={tag} className="tag-pill">{tag}</span>)}
               {post.tags.map((t: string) => (
                 <span key={t} className={styles.tagSecondary}>{t}</span>
               ))}

@@ -3,7 +3,7 @@
 import Link from 'next/link'
 import { Suspense, useEffect, useState } from 'react'
 import { useSearchParams } from 'next/navigation'
-import { TOPIC_PALETTE, inferTopicKey, isNotebookEntry, topicLabelFromKey, type PostMeta, type TopicKey } from '../../lib/shared'
+import { isNotebookEntry, type PostMeta } from '../../lib/shared'
 import FilterToolbar from '../../components/FilterToolbar'
 import styles from './page.module.css'
 
@@ -12,11 +12,6 @@ function BlogPageContent() {
   const [posts, setPosts] = useState<PostMeta[]>([])
   const [loading, setLoading] = useState(true)
   const [allTags, setAllTags] = useState<string[]>([])
-  const selectedCategory = searchParams.get('category') || ''
-  const requestedTopic = (searchParams.get('topic') || '').toLowerCase()
-  const selectedTopic = TOPIC_PALETTE.some(topic => topic.key === requestedTopic)
-    ? (requestedTopic as TopicKey)
-    : undefined
   const selectedTag = (searchParams.get('tag') || '').trim()
 
   const normalize = (value: string) => value
@@ -50,26 +45,14 @@ function BlogPageContent() {
     fetchPosts()
   }, [])
 
-  const visibleTags = allTags.filter(tag => {
-    const normalizedTag = normalize(tag)
-    return !TOPIC_PALETTE.some(topic => {
-      if (normalize(topic.label) === normalizedTag) return true
-      return topic.aliases.some(alias => normalize(alias) === normalizedTag)
-    })
-  })
-
   const normalizedSelectedTag = normalize(selectedTag)
-  const activeFilterLabel = selectedTopic
-    ? topicLabelFromKey(selectedTopic)
-    : selectedCategory || selectedTag
+  const activeFilterLabel = selectedTag
 
   const filteredPosts = posts.filter(post => {
     if (isNotebookEntry(post)) return false
     const postTags = (post.tags || []).map(tag => normalize(tag))
     const tagMatch = !selectedTag || postTags.includes(normalizedSelectedTag)
-    const categoryMatch = !selectedCategory || post.category === selectedCategory
-    const topicMatch = !selectedTopic || inferTopicKey(post.category) === selectedTopic
-    return tagMatch && categoryMatch && topicMatch
+    return tagMatch
   })
 
   if (loading) {
@@ -98,16 +81,8 @@ function BlogPageContent() {
           clearHref="/blog"
           sections={[
             {
-              label: 'Kategoriler',
-              items: TOPIC_PALETTE.map((topic) => ({
-                label: topic.label,
-                href: `/blog?topic=${topic.key}`,
-                active: selectedTopic === topic.key,
-              })),
-            },
-            {
               label: 'Etiketler',
-              items: visibleTags.map((tag) => ({
+              items: allTags.map((tag) => ({
                 label: tag,
                 href: `/blog?tag=${encodeURIComponent(tag)}`,
                 active: normalizedSelectedTag === normalize(tag),
@@ -135,7 +110,7 @@ function BlogPageContent() {
                   <Link href={`/blog/${filteredPosts[0].slug}`} className={styles.featured}>
                     <div className={styles.featuredEmoji}>{filteredPosts[0].coverEmoji}</div>
                     <div>
-                      <span className="tag-pill">{filteredPosts[0].category}</span>
+                      {filteredPosts[0].tags.slice(0, 3).map(tag => <span key={tag} className="tag-pill">{tag}</span>)}
                       <h2 className={styles.featuredTitle}>{filteredPosts[0].title}</h2>
                       <p className={styles.featuredExcerpt}>{filteredPosts[0].excerpt}</p>
                       <div className={styles.meta}>
@@ -153,7 +128,7 @@ function BlogPageContent() {
                     <Link key={post.slug} href={`/blog/${post.slug}`} className={styles.card} style={{ animationDelay: `${i * 0.08}s` }}>
                       <div className={styles.cardEmoji}>{post.coverEmoji}</div>
                       <div className={styles.cardBody}>
-                        <span className="tag-pill">{post.category}</span>
+                        {post.tags.slice(0, 3).map(tag => <span key={tag} className="tag-pill">{tag}</span>)}
                         <h3 className={styles.cardTitle}>{post.title}</h3>
                         <p className={styles.cardExcerpt}>{post.excerpt}</p>
                         <div className={styles.meta}>

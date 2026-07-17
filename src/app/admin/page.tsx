@@ -51,7 +51,7 @@ export default async function AdminPage() {
         <div className={styles.table}>
           <div className={styles.tableHeader}>
             <span>Yazı</span>
-            <span>Kategori</span>
+            <span>Etiketler</span>
             <span>Tarih</span>
             <span>Durum</span>
             <span>İşlemler</span>
@@ -66,7 +66,7 @@ export default async function AdminPage() {
                 <span className={styles.postEmoji}>{post.coverEmoji}</span>
                 <span className={styles.postTitle}>{post.title}</span>
               </div>
-              <span className="tag-pill">{post.category}</span>
+              <span>{post.tags.slice(0, 2).map(tag => <span key={tag} className="tag-pill">{tag}</span>)}</span>
               <span className={styles.date}>{new Date(post.date).toLocaleDateString('tr-TR')}</span>
               <span className={post.published ? styles.published : styles.draft}>
                 {post.published ? '✅ Yayında' : '📝 Taslak'}
@@ -93,7 +93,7 @@ export default async function AdminPage() {
         <div className={styles.table}>
           <div className={styles.tableHeader}>
             <span>Proje</span>
-            <span>Kategori</span>
+            <span>Etiketler</span>
             <span>Tarih</span>
             <span>Durum</span>
             <span>İşlemler</span>
@@ -108,7 +108,7 @@ export default async function AdminPage() {
                 <span className={styles.postEmoji}>{proj.coverEmoji}</span>
                 <span className={styles.postTitle}>{proj.title}</span>
               </div>
-              <span className="tag-pill">{proj.category}</span>
+              <span>{proj.tags.slice(0, 2).map(tag => <span key={tag} className="tag-pill">{tag}</span>)}</span>
               <span className={styles.date}>{new Date(proj.date).toLocaleDateString('tr-TR')}</span>
               <span className={proj.status === 'Tamamlandı' ? styles.published : styles.draft}>
                 {proj.status}

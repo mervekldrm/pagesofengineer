@@ -38,7 +38,7 @@ export default async function NotebookDetailPage({ params }: { params: { slug: s
           ) : (
             <div className={styles.emoji}>{post.coverEmoji || '🗒️'}</div>
           )}
-          <span className="tag-pill">{post.category}</span>
+          {post.tags.map((tag) => <span key={tag} className="tag-pill">{tag}</span>)}
           <h1>{post.title}</h1>
           {post.excerpt && <p className={styles.excerpt}>{post.excerpt}</p>}
           <div className={styles.meta}>

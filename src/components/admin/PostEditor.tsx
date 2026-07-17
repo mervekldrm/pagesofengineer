@@ -32,7 +32,6 @@ export default function PostEditor({ initialPost, isEdit }: Props) {
   const [slug, setSlug] = useState(initialPost?.slug || '')
   const [excerpt, setExcerpt] = useState(initialPost?.excerpt || '')
   const [content, setContent] = useState(initialPost?.content || '')
-  const [category, setCategory] = useState(initialPost?.category || 'Genel')
   const [tags, setTags] = useState((initialPost?.tags || []).join(', '))
   const [emoji, setEmoji] = useState(initialPost?.coverEmoji || '📝')
   const [coverImageUrl, setCoverImageUrl] = useState(initialPost?.coverImageUrl || '')
@@ -76,7 +75,6 @@ export default function PostEditor({ initialPost, isEdit }: Props) {
           title,
           excerpt,
           content,
-          category,
           tags: tags.split(',').map((t: string) => t.trim()).filter(Boolean),
           coverEmoji: emoji,
           coverImageUrl: resolvedCoverImageUrl || undefined,
@@ -192,12 +190,6 @@ export default function PostEditor({ initialPost, isEdit }: Props) {
             )}
           </div>
           <div className={styles.sideSection}>
-            <label>Kategori</label>
-            <select value={category} onChange={e => setCategory(e.target.value)}>
-              {CATEGORIES.map(c => <option key={c.name} value={c.name}>{c.emoji} {c.name}</option>)}
-            </select>
-          </div>
-          <div className={styles.sideSection}>
             <label>Etiketler (virgülle ayır)</label>
             <input type="text" value={tags} onChange={e => setTags(e.target.value)} placeholder="python, bioinformatics, cloud" />
           </div>
@@ -205,7 +197,7 @@ export default function PostEditor({ initialPost, isEdit }: Props) {
             <label>Slug (URL)</label>
             <input type="text" value={slug} onChange={e => setSlug(e.target.value)} placeholder="rna-seq-pipeline" />
             <p className={styles.hint}>
-              pagesofengineer.com/{category === 'Notebook' ? 'notebook' : 'blog'}/<strong>{slug || 'slug'}</strong>
+              Notebook notları için etiketlere <strong>notebook</strong> ekle. Diğer yazılar blogda görünür.
             </p>
           </div>
           <div className={styles.sideSection}>

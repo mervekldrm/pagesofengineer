@@ -31,7 +31,7 @@ export default async function ProjectPage({ params }: { params: { slug: string }
         <header className={styles.header}>
           <div className={styles.emoji}>{project.coverEmoji}</div>
           <div className={styles.tags}>
-            <span className="tag-pill">{project.category}</span>
+            {project.tags.map((tag) => <span key={tag} className="tag-pill">{tag}</span>)}
             {(project.tags || []).map((t: string) => (
               <span key={t} className={styles.tagSecondary}>{t}</span>
             ))}

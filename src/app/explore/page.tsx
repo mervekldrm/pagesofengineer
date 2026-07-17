@@ -3,7 +3,6 @@ import FilterToolbar from '../../components/FilterToolbar'
 import styles from './page.module.css'
 import { getAllPosts } from '../../lib/posts'
 import { getAllProjects } from '../../lib/projects'
-import { TOPIC_PALETTE, inferTopicKey, topicLabelFromKey, type TopicKey } from '../../lib/shared'
 
 export const revalidate = 60
 
@@ -20,8 +19,7 @@ type ExploreItem = {
 
 type ExplorePageProps = {
   searchParams?: {
-    topic?: string
-    category?: string
+    tag?: string
   }
 }
 
@@ -29,28 +27,18 @@ export default async function ExplorePage({ searchParams }: ExplorePageProps) {
   const posts = await getAllPosts()
   const projects = await getAllProjects()
 
-  const topicSet = new Set(TOPIC_PALETTE.map(topic => topic.key))
-  const requestedTopic = (searchParams?.topic || '').toLowerCase()
-  const selectedTopic: TopicKey | undefined = topicSet.has(requestedTopic as TopicKey)
-    ? (requestedTopic as TopicKey)
-    : undefined
-  const selectedCategory = (searchParams?.category || '').trim()
+  const selectedTag = (searchParams?.tag || '').trim()
+  const allTags = Array.from(new Set([...posts, ...projects].flatMap(item => item.tags || []))).filter(Boolean).sort()
 
   const filteredPosts = posts.filter((post) => {
-    if (selectedTopic) return inferTopicKey(post.category) === selectedTopic
-    if (selectedCategory) return post.category === selectedCategory
-    return true
+    return !selectedTag || post.tags.includes(selectedTag)
   })
 
   const filteredProjects = projects.filter((project) => {
-    if (selectedTopic) return inferTopicKey(project.category) === selectedTopic
-    if (selectedCategory) return project.category === selectedCategory
-    return true
+    return !selectedTag || project.tags.includes(selectedTag)
   })
 
-  const activeFilterLabel = selectedTopic
-    ? topicLabelFromKey(selectedTopic)
-    : selectedCategory
+  const activeFilterLabel = selectedTag
 
   const items: ExploreItem[] = [
     ...filteredPosts.map((p) => ({
@@ -93,11 +81,11 @@ export default async function ExplorePage({ searchParams }: ExplorePageProps) {
           clearHref="/explore"
           sections={[
             {
-              label: 'Kategoriler',
-              items: TOPIC_PALETTE.map((topic) => ({
-                label: topic.label,
-                href: `/explore?topic=${topic.key}`,
-                active: selectedTopic === topic.key,
+              label: 'Etiketler',
+              items: allTags.map((tag) => ({
+                label: tag,
+                href: `/explore?tag=${encodeURIComponent(tag)}`,
+                active: selectedTag === tag,
               })),
             },
           ]}

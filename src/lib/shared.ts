@@ -3,7 +3,8 @@ export interface PostMeta {
   title: string
   date: string
   excerpt: string
-  category: string
+  /** Legacy storage field kept only for existing database rows. */
+  category?: string
   tags: string[]
   coverEmoji?: string
   coverImageUrl?: string
@@ -74,16 +75,10 @@ function normalizeText(value: string): string {
     .trim()
 }
 
-export function isNotebookEntry(input: { category?: string; tags?: string[] }): boolean {
-  const normalizedCategory = normalizeText(input.category || '')
+export function isNotebookEntry(input: { tags?: string[] }): boolean {
   const normalizedTags = (input.tags || []).map(tag => normalizeText(tag))
 
-  const notebookCategoryKeywords = ['notebook', 'not', 'kisa not', 'notes']
   const notebookTagKeywords = ['notebook', 'not', 'notes', 'quicknote', 'quick-note']
-
-  if (notebookCategoryKeywords.some(keyword => normalizedCategory.includes(keyword))) {
-    return true
-  }
 
   if (normalizedTags.some(tag => notebookTagKeywords.includes(tag))) {
     return true

@@ -1,5 +1,5 @@
 import Link from 'next/link'
-import { TOPIC_PALETTE, isNotebookEntry, type PostMeta, type ProjectMeta } from '../lib/shared'
+import { isNotebookEntry, type PostMeta, type ProjectMeta } from '../lib/shared'
 import { getAllPosts } from '../lib/posts'
 import { getAllProjects } from '../lib/projects'
 import styles from './page.module.css'
@@ -10,17 +10,19 @@ export default async function Home() {
   const posts = (await getAllPosts()).filter(post => !isNotebookEntry(post)).slice(0, 3)
   const projects = (await getAllProjects()).slice(0, 3)
 
-  const paletteSwatches = TOPIC_PALETTE.map(topic => ({
-    label: topic.label,
-    color: topic.color,
-    href: `/explore?topic=${topic.key}`,
-  }))
+  const paletteSwatches = [
+    { label: 'Yazılar', color: 'var(--accent-bg)', href: '/blog' },
+    { label: 'Projeler', color: 'var(--mint-soft)', href: '/projects' },
+    { label: 'Notebook', color: 'var(--cloud-pale)', href: '/notebook' },
+    { label: 'Keşfet', color: 'var(--sun-soft)', href: '/explore' },
+  ]
+  const legacyTopics: Array<{ label: string; key: string; color: string }> = []
 
   const focusAreas = [
     { label: 'Yazılar', href: '/blog', color: 'var(--accent-bg)', description: 'Son notlar ve fikirler' },
-    ...TOPIC_PALETTE.slice(0, 4).map((topic) => ({
+    ...legacyTopics.map((topic) => ({
       label: topic.label,
-      href: `/explore?topic=${topic.key}`,
+      href: '/explore',
       color: topic.color,
       description: 'Yazi + proje seckisi',
     })),
@@ -136,7 +138,7 @@ export default async function Home() {
             {posts.map((post: PostMeta, i: number) => (
               <Link key={post.slug} href={`/blog/${post.slug}`} className={styles.postCard} style={{ animationDelay: `${i * 0.1}s` }}>
                 <div className={styles.postEmoji}>{post.coverEmoji}</div>
-                <span className="tag-pill">{post.category}</span>
+                {post.tags.slice(0, 3).map((tag) => <span key={tag} className="tag-pill">{tag}</span>)}
                 <h3 className={styles.postTitle}>{post.title}</h3>
                 <p className={styles.postExcerpt}>{post.excerpt}</p>
                 <div className={styles.postMeta}>
@@ -160,7 +162,7 @@ export default async function Home() {
             {projects.map((proj: ProjectMeta, i: number) => (
               <Link key={proj.slug} href={`/projects/${proj.slug}`} className={styles.postCard} style={{ animationDelay: `${i * 0.1}s` }}>
                 <div className={styles.postEmoji}>{proj.coverEmoji}</div>
-                <span className="tag-pill">{proj.category}</span>
+                {proj.tags.slice(0, 3).map((tag) => <span key={tag} className="tag-pill">{tag}</span>)}
                 <h3 className={styles.postTitle}>{proj.title}</h3>
                 <p className={styles.postExcerpt}>{proj.excerpt}</p>
                 <div className={styles.postMeta}>
