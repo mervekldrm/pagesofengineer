@@ -16,38 +16,26 @@ export default async function Home() {
     href: `/explore?topic=${topic.key}`,
   }))
 
-  const categoryLinks = [
+  const focusAreas = [
     { label: 'Yazılar', href: '/blog', color: 'var(--accent-bg)', description: 'Son notlar ve fikirler' },
-    ...TOPIC_PALETTE.map((topic) => ({
+    ...TOPIC_PALETTE.slice(0, 4).map((topic) => ({
       label: topic.label,
       href: `/explore?topic=${topic.key}`,
       color: topic.color,
       description: 'Yazi + proje seckisi',
     })),
     { label: 'Projeler', href: '/projects', color: 'var(--mint-soft)', description: 'Ürettiklerim' },
-    { label: 'Hakkımda', href: '/about', color: 'var(--peach-soft)', description: 'Kimim, ne yapıyorum' },
-    { label: 'İletişim', href: '/contact', color: 'var(--coral-soft)', description: 'Bir mesaj bırak' },
     { label: 'Keşfet', href: '/explore', color: 'var(--sun-soft)', description: 'Karışık keşif alanı' },
   ]
 
-  const heroSignals = [
+  const heroHighlights = [
     {
       title: 'Bugün',
       value: posts[0]?.title ?? 'Yeni fikirler',
-      emoji: '✦',
-      href: '/blog',
     },
     {
       title: 'Yakın proje',
       value: projects[0]?.title ?? 'Bir şeyler inşa ediliyor',
-      emoji: '◌',
-      href: '/projects',
-    },
-    {
-      title: 'Ritim',
-      value: `${posts.length + projects.length} canlı parça`,
-      emoji: '✶',
-      href: '/explore',
     },
   ]
 
@@ -124,18 +112,15 @@ export default async function Home() {
               Burası projelerimi, düşüncelerimi ve ilhamlarımı bir araya getirdiğim kişisel alanım.
               Eğer burada bir fikirle, yazıyla ya da projeyle bağ kurarsan — ne mutlu bana.
             </p>
-            <Link href="/explore" className="btn btn-primary">Ne var? — Daha fazlası için göz at</Link>
-          </div>
-          <div className={styles.heroSignals}>
-            {heroSignals.map((signal) => (
-              <Link key={signal.title} href={signal.href} className={styles.signalCard} aria-label={`${signal.title} bölümüne git`}>
-                <span className={styles.signalEmoji}>{signal.emoji}</span>
-                <div>
-                  <p className={styles.signalTitle}>{signal.title}</p>
-                  <p className={styles.signalValue}>{signal.value}</p>
+            <div className={styles.infoHighlights}>
+              {heroHighlights.map((item) => (
+                <div key={item.title} className={styles.highlightItem}>
+                  <span className={styles.highlightTitle}>{item.title}</span>
+                  <span className={styles.highlightValue}>{item.value}</span>
                 </div>
-              </Link>
-            ))}
+              ))}
+            </div>
+            <Link href="/explore" className="btn btn-primary">Ne var? — Daha fazlası için göz at</Link>
           </div>
         </div>
       </section>
@@ -192,18 +177,21 @@ export default async function Home() {
       {/* QUICK ABOUT */}
       <section className={styles.quickAbout}>
         <div className={styles.aboutCard}>
-          <h2>Keşfedeceklerim 🔭</h2>
-          <div className={styles.interests}>
-            {categoryLinks.map(item => (
+          <div className={styles.aboutHeader}>
+            <h2>Odak Alanlarım 🔭</h2>
+            <p>Site içinde tekrar etmeden en değerli bölümlere doğrudan ulaş.</p>
+          </div>
+          <div className={styles.focusGrid}>
+            {focusAreas.map(item => (
               <Link
                 key={item.label}
                 href={item.href}
-                className={styles.interestChip}
+                className={styles.focusCard}
                 style={{ background: item.color }}
                 aria-label={`${item.label} sayfasına git`}
               >
-                <span className={styles.interestTitle}>{item.label}</span>
-                <span className={styles.interestDescription}>{item.description}</span>
+                <span className={styles.focusTitle}>{item.label}</span>
+                <span className={styles.focusDescription}>{item.description}</span>
               </Link>
             ))}
           </div>

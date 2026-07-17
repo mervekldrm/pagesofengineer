@@ -1,28 +1,11 @@
 import Link from 'next/link'
+import FilterToolbar from '../../components/FilterToolbar'
 import styles from './page.module.css'
 import { getAllPosts } from '../../lib/posts'
 import { getAllProjects } from '../../lib/projects'
-import { TOPIC_PALETTE, inferTopicKey, topicLabelFromKey, type PostMeta, type ProjectMeta, type TopicKey } from '../../lib/shared'
+import { TOPIC_PALETTE, inferTopicKey, topicLabelFromKey, type TopicKey } from '../../lib/shared'
 
 export const revalidate = 60
-
-const decor = [
-  { emoji: '✦', className: 'sparkOne' },
-  { emoji: '◌', className: 'sparkTwo' },
-  { emoji: '✺', className: 'sparkThree' },
-  { emoji: '⟡', className: 'sparkFour' },
-]
-
-function slugifyCategory(input: string) {
-  return input
-    .toLowerCase()
-    .replace(/ğ/g, 'g').replace(/ü/g, 'u').replace(/ş/g, 's')
-    .replace(/ı/g, 'i').replace(/ö/g, 'o').replace(/ç/g, 'c')
-    .replace(/[^a-z0-9\s-]/g, '')
-    .trim()
-    .replace(/\s+/g, '-')
-    .replace(/-+/g, '-')
-}
 
 type ExploreItem = {
   __type: 'post' | 'project'
@@ -65,13 +48,9 @@ export default async function ExplorePage({ searchParams }: ExplorePageProps) {
     return true
   })
 
-  const postsByCategory = new Map<string, PostMeta[]>()
-  for (const post of filteredPosts) {
-    const key = (post.category || 'Genel').trim()
-    const list = postsByCategory.get(key) || []
-    list.push(post)
-    postsByCategory.set(key, list)
-  }
+  const activeFilterLabel = selectedTopic
+    ? topicLabelFromKey(selectedTopic)
+    : selectedCategory
 
   const items: ExploreItem[] = [
     ...filteredPosts.map((p) => ({
@@ -100,32 +79,29 @@ export default async function ExplorePage({ searchParams }: ExplorePageProps) {
 
   return (
     <div className={styles.page}>
-      <div className={styles.decor} aria-hidden="true">
-        {decor.map((item, index) => (
-          <span key={item.className} className={`${styles.spark} ${styles[item.className as keyof typeof styles]}`} style={{ animationDelay: `${index * 0.45}s` }}>
-            {item.emoji}
-          </span>
-        ))}
-      </div>
       <div className="container">
         <div className={styles.header}>
-          <div>
-            <h1>Burada Neler Var?</h1>
-            {(selectedTopic || selectedCategory) && (
-              <div className={styles.activeFilterRow}>
-                <span className={styles.activeFilterLabel}>Seçili:</span>
-                <span className="tag-pill">{selectedTopic ? topicLabelFromKey(selectedTopic) : selectedCategory}</span>
-                <Link href="/explore" className={styles.clearFilterLink}>Temizle</Link>
-              </div>
-            )}
-          </div>
+          <h1>Keşfet</h1>
           <div className={styles.headerActions}>
             <Link href="/blog" className="btn btn-outline">Yazılara git</Link>
             <Link href="/projects" className="btn btn-ghost">Projeler</Link>
           </div>
         </div>
 
-        {/* topic rail removed — use header chips */}
+        <FilterToolbar
+          activeLabel={activeFilterLabel}
+          clearHref="/explore"
+          sections={[
+            {
+              label: 'Kategoriler',
+              items: TOPIC_PALETTE.map((topic) => ({
+                label: topic.label,
+                href: `/explore?topic=${topic.key}`,
+                active: selectedTopic === topic.key,
+              })),
+            },
+          ]}
+        />
 
         {items.length === 0 ? (
           <div className={styles.emptyState}>
@@ -140,8 +116,6 @@ export default async function ExplorePage({ searchParams }: ExplorePageProps) {
               className={styles.cardShell}
               style={{
                 animationDelay: `${i * 0.05}s`,
-                ['--card-tilt' as any]: `${i % 2 === 0 ? -1 : 1}deg`,
-                ['--card-float' as any]: `${i % 3 === 0 ? 10 : 14}px`,
               }}
             >
               <Link

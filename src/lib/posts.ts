@@ -2,7 +2,7 @@ import fs from 'fs/promises'
 import path from 'path'
 import matter from 'gray-matter'
 import { PostMeta, Post, resolveCoverImageUrl } from './shared'
-import { getSupabaseAdminClient } from './supabase'
+import { getSupabaseAdminClient, getSupabaseReadClient } from './supabase'
 
 const postsDir = path.join(process.cwd(), 'content/posts')
 
@@ -126,10 +126,13 @@ async function seedDatabaseFromLocalIfNeeded() {
 }
 
 export async function getAllPosts(publishedOnly = true): Promise<PostMeta[]> {
-  const client = getSupabaseAdminClient()
+  const adminClient = getSupabaseAdminClient()
+  const client = adminClient || getSupabaseReadClient()
   if (client) {
     try {
-      await seedDatabaseFromLocalIfNeeded()
+      if (adminClient) {
+        await seedDatabaseFromLocalIfNeeded()
+      }
       const { data, error } = await client.from('posts').select('*').order('date', { ascending: false })
       if (error) throw error
       const records = (data ?? []).map(toRecord)
@@ -147,10 +150,13 @@ export async function getAllPosts(publishedOnly = true): Promise<PostMeta[]> {
 }
 
 export async function getPost(slug: string): Promise<Post | null> {
-  const client = getSupabaseAdminClient()
+  const adminClient = getSupabaseAdminClient()
+  const client = adminClient || getSupabaseReadClient()
   if (client) {
     try {
-      await seedDatabaseFromLocalIfNeeded()
+      if (adminClient) {
+        await seedDatabaseFromLocalIfNeeded()
+      }
       const { data, error } = await client.from('posts').select('*').eq('slug', slug).maybeSingle()
       if (error) throw error
       return data ? toRecord(data) : null

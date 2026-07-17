@@ -53,13 +53,6 @@ export default function ContactPage() {
             </a>
           ))}
         </div>
-
-        <div className={styles.note}>
-          <span>✨</span>
-          <p>
-            
-          </p>
-        </div>
       </div>
     </div>
   )

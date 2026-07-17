@@ -2,7 +2,7 @@ import fs from 'fs/promises'
 import path from 'path'
 import matter from 'gray-matter'
 import { ProjectMeta } from './shared'
-import { getSupabaseAdminClient } from './supabase'
+import { getSupabaseAdminClient, getSupabaseReadClient } from './supabase'
 
 const projectsDir = path.join(process.cwd(), 'content/projects')
 
@@ -131,10 +131,13 @@ async function seedDatabaseFromLocalIfNeeded() {
 }
 
 export async function getAllProjects(publishedOnly = true): Promise<ProjectMeta[]> {
-  const client = getSupabaseAdminClient()
+  const adminClient = getSupabaseAdminClient()
+  const client = adminClient || getSupabaseReadClient()
   if (client) {
     try {
-      await seedDatabaseFromLocalIfNeeded()
+      if (adminClient) {
+        await seedDatabaseFromLocalIfNeeded()
+      }
       const { data, error } = await client.from('projects').select('*').order('date', { ascending: false })
       if (error) throw error
       const records = (data ?? []).map(toRecord)
@@ -150,10 +153,13 @@ export async function getAllProjects(publishedOnly = true): Promise<ProjectMeta[
 }
 
 export async function getProject(slug: string): Promise<ProjectRecord | null> {
-  const client = getSupabaseAdminClient()
+  const adminClient = getSupabaseAdminClient()
+  const client = adminClient || getSupabaseReadClient()
   if (client) {
     try {
-      await seedDatabaseFromLocalIfNeeded()
+      if (adminClient) {
+        await seedDatabaseFromLocalIfNeeded()
+      }
       const { data, error } = await client.from('projects').select('*').eq('slug', slug).maybeSingle()
       if (error) throw error
       return data ? toRecord(data) : null

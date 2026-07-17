@@ -9,7 +9,6 @@ export async function GET() {
   } catch (e) {
     const errorMsg = e instanceof Error ? e.message : typeof e === 'string' ? e : JSON.stringify(e)
     console.error('GET /api/posts error:', errorMsg)
-    console.error('GET /api/posts error full:', e)
     return NextResponse.json({ error: 'Yazılar alınırken hata oluştu: ' + errorMsg }, { status: 500 })
   }
 }
@@ -23,20 +22,17 @@ export async function POST(req: NextRequest) {
   try {
     const body = await req.json()
     const { slug, content, ...frontmatter } = body
-    console.log('POST /api/posts with slug:', slug)
-    
+
     if (!slug) {
       console.warn('POST /api/posts: No slug provided')
       return NextResponse.json({ error: 'Slug gerekli' }, { status: 400 })
     }
-    
+
     await savePost(slug, frontmatter, content || '')
-    console.log('POST /api/posts: Successfully saved slug:', slug)
     return NextResponse.json({ ok: true, slug })
   } catch (e) {
     const errorMsg = e instanceof Error ? e.message : typeof e === 'string' ? e : JSON.stringify(e)
     console.error('POST /api/posts error:', errorMsg)
-    console.error('POST /api/posts error full:', e)
     return NextResponse.json({ error: 'Yazı kaydedilirken hata oluştu: ' + errorMsg }, { status: 500 })
   }
 }
@@ -50,20 +46,17 @@ export async function DELETE(req: NextRequest) {
   try {
     const { searchParams } = new URL(req.url)
     const slug = searchParams.get('slug')
-    console.log('DELETE /api/posts with slug:', slug)
-    
+
     if (!slug) {
       console.warn('DELETE /api/posts: No slug provided')
       return NextResponse.json({ error: 'Slug gerekli' }, { status: 400 })
     }
 
     await deletePost(slug)
-    console.log('DELETE /api/posts: Successfully deleted slug:', slug)
     return NextResponse.json({ ok: true })
   } catch (e) {
     const errorMsg = e instanceof Error ? e.message : typeof e === 'string' ? e : JSON.stringify(e)
     console.error('DELETE /api/posts error:', errorMsg)
-    console.error('DELETE /api/posts error full:', e)
     return NextResponse.json({ error: 'Yazı silinirken hata oluştu: ' + errorMsg }, { status: 500 })
   }
 }

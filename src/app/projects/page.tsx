@@ -1,6 +1,7 @@
 import styles from './page.module.css'
 import Link from 'next/link'
 import { TOPIC_PALETTE, inferTopicKey, topicLabelFromKey, type TopicKey } from '../../lib/shared'
+import FilterToolbar from '../../components/FilterToolbar'
 
 export const metadata = { title: 'Projeler — Pages of Engineer' }
 export const revalidate = 60 // ISR - revalidate every 60 seconds
@@ -28,6 +29,7 @@ export default async function ProjectsPage({ searchParams }: ProjectsPageProps) 
     if (selectedCategory) return project.category === selectedCategory
     return true
   })
+  const activeFilterLabel = selectedTopic ? topicLabelFromKey(selectedTopic) : selectedCategory
 
   return (
     <div className={styles.page}>
@@ -37,25 +39,20 @@ export default async function ProjectsPage({ searchParams }: ProjectsPageProps) 
           <p className={styles.subtitle}>Ellerin değdiği, zihnin şekillendirdiği şeyler.</p>
         </div>
 
-        {(selectedTopic || selectedCategory) && (
-          <div className={styles.activeCategoryRow}>
-            <span className={styles.activeCategoryLabel}>Seçili:</span>
-            <span className="tag-pill">{selectedTopic ? topicLabelFromKey(selectedTopic) : selectedCategory}</span>
-            <Link href="/projects" className={styles.clearCategoryLink}>Temizle</Link>
-          </div>
-        )}
-
-        <div className={styles.topicFilterRow}>
-          {TOPIC_PALETTE.map((topic) => (
-            <Link
-              key={topic.key}
-              href={`/projects?topic=${topic.key}`}
-              className={`${styles.topicFilterChip} ${selectedTopic === topic.key ? styles.topicFilterChipActive : ''}`}
-            >
-              {topic.label}
-            </Link>
-          ))}
-        </div>
+        <FilterToolbar
+          activeLabel={activeFilterLabel}
+          clearHref="/projects"
+          sections={[
+            {
+              label: 'Kategoriler',
+              items: TOPIC_PALETTE.map((topic) => ({
+                label: topic.label,
+                href: `/projects?topic=${topic.key}`,
+                active: selectedTopic === topic.key,
+              })),
+            },
+          ]}
+        />
 
         <div className={styles.grid}>
           {filteredProjects.map((p, i) => (

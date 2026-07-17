@@ -4,20 +4,20 @@ import Link from 'next/link'
 import { Suspense, useEffect, useState } from 'react'
 import { useSearchParams } from 'next/navigation'
 import { TOPIC_PALETTE, inferTopicKey, topicLabelFromKey, type PostMeta, type TopicKey } from '../../lib/shared'
+import FilterToolbar from '../../components/FilterToolbar'
 import styles from './page.module.css'
 
 function BlogPageContent() {
   const searchParams = useSearchParams()
   const [posts, setPosts] = useState<PostMeta[]>([])
   const [loading, setLoading] = useState(true)
-  const [selectedTags, setSelectedTags] = useState<string[]>([])
   const [allTags, setAllTags] = useState<string[]>([])
   const selectedCategory = searchParams.get('category') || ''
   const requestedTopic = (searchParams.get('topic') || '').toLowerCase()
   const selectedTopic = TOPIC_PALETTE.some(topic => topic.key === requestedTopic)
     ? (requestedTopic as TopicKey)
     : undefined
-  const requestedTag = searchParams.get('tag') || ''
+  const selectedTag = (searchParams.get('tag') || '').trim()
 
   const normalize = (value: string) => value
     .toLowerCase()
@@ -28,12 +28,6 @@ function BlogPageContent() {
     .replace(/ö/g, 'o')
     .replace(/ç/g, 'c')
     .trim()
-
-  useEffect(() => {
-    // sync selectedTags with query param when present
-    if (requestedTag) setSelectedTags([requestedTag])
-    else setSelectedTags([])
-  }, [requestedTag])
 
   useEffect(() => {
     const fetchPosts = async () => {
@@ -64,11 +58,14 @@ function BlogPageContent() {
     })
   })
 
-  const normalizedRequestedTag = normalize(requestedTag)
+  const normalizedSelectedTag = normalize(selectedTag)
+  const activeFilterLabel = selectedTopic
+    ? topicLabelFromKey(selectedTopic)
+    : selectedCategory || selectedTag
 
   const filteredPosts = posts.filter(post => {
     const postTags = (post.tags || []).map(tag => normalize(tag))
-    const tagMatch = selectedTags.length === 0 || selectedTags.some(tag => postTags.includes(normalize(tag)))
+    const tagMatch = !selectedTag || postTags.includes(normalizedSelectedTag)
     const categoryMatch = !selectedCategory || post.category === selectedCategory
     const topicMatch = !selectedTopic || inferTopicKey(post.category) === selectedTopic
     return tagMatch && categoryMatch && topicMatch
@@ -95,49 +92,28 @@ function BlogPageContent() {
           <p className={styles.subtitle}>Öğrendiklerim, denediklerim, düşündüklerim.</p>
         </div>
 
-        {selectedCategory && (
-          <div className={styles.activeCategoryRow}>
-            <span className={styles.activeCategoryLabel}>Kategori:</span>
-            <span className="tag-pill">{selectedCategory}</span>
-            <Link href="/blog" className={styles.clearCategoryLink}>Temizle</Link>
-          </div>
-        )}
-
-        {selectedTopic && (
-          <div className={styles.activeCategoryRow}>
-            <span className={styles.activeCategoryLabel}>Konu:</span>
-            <span className="tag-pill">{topicLabelFromKey(selectedTopic)}</span>
-            <Link href="/blog" className={styles.clearCategoryLink}>Temizle</Link>
-          </div>
-        )}
-
-        <div className={styles.topicFilterSection}>
-          <div className={styles.topicFilterLabel}>Kategoriler</div>
-          {TOPIC_PALETTE.map((topic) => (
-            <Link
-              key={topic.key}
-              href={`/blog?topic=${topic.key}`}
-              className={`${styles.topicFilterChip} ${selectedTopic === topic.key ? styles.topicFilterChipActive : ''}`}
-            >
-              {topic.label}
-            </Link>
-          ))}
-        </div>
-
-        {visibleTags.length > 0 && (
-          <div className={styles.topicFilterSection}>
-            <div className={styles.topicFilterLabel}>Etiketler</div>
-            {visibleTags.map(tag => (
-              <Link
-                key={`tag-${tag}`}
-                href={`/blog?tag=${encodeURIComponent(tag)}`}
-                className={`${styles.topicFilterChip} ${normalizedRequestedTag === normalize(tag) ? styles.topicFilterChipActive : ''}`}
-              >
-                {tag}
-              </Link>
-            ))}
-          </div>
-        )}
+        <FilterToolbar
+          activeLabel={activeFilterLabel}
+          clearHref="/blog"
+          sections={[
+            {
+              label: 'Kategoriler',
+              items: TOPIC_PALETTE.map((topic) => ({
+                label: topic.label,
+                href: `/blog?topic=${topic.key}`,
+                active: selectedTopic === topic.key,
+              })),
+            },
+            {
+              label: 'Etiketler',
+              items: visibleTags.map((tag) => ({
+                label: tag,
+                href: `/blog?tag=${encodeURIComponent(tag)}`,
+                active: normalizedSelectedTag === normalize(tag),
+              })),
+            },
+          ]}
+        />
 
         {posts.length === 0 ? (
           <div className={styles.empty}>
