@@ -25,7 +25,7 @@ export default async function NotebookPage() {
 
         {notebookPosts.length === 0 ? (
           <div className={styles.empty}>
-            <p>Henuz notebook notu yok. Admin panelden kategoriyi Notebook secerek ekleyebilirsin.</p>
+            <p>Henuz notebook notu yok. </p>
           </div>
         ) : (
           <div className={styles.list}>
