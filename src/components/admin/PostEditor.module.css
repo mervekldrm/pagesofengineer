@@ -72,6 +72,19 @@
 
 .hint { font-size: 11px; color: var(--text-muted); margin-top: 0.4rem; word-break: break-all; }
 
+.miniCode {
+  display: block;
+  margin-top: 0.45rem;
+  font-family: 'Courier New', monospace;
+  font-size: 11px;
+  color: var(--accent-primary);
+  background: white;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 0.45rem 0.5rem;
+  word-break: break-all;
+}
+
 .checkLabel {
   display: flex !important;
   align-items: center;

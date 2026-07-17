@@ -11,6 +11,7 @@ export default function Footer() {
         <p className={styles.tagline}>Kodla yaz, kalemle çiz, kelimelerle anlat.</p>
         <div className={styles.links}>
           <Link href="/blog">Blog</Link>
+          <Link href="/notebook">Notebook</Link>
           <Link href="/projects">Projeler</Link>
           <Link href="/about">Hakkımda</Link>
           <Link href="/contact">İletişim</Link>

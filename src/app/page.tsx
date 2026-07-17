@@ -1,5 +1,5 @@
 import Link from 'next/link'
-import { TOPIC_PALETTE, type PostMeta, type ProjectMeta } from '../lib/shared'
+import { TOPIC_PALETTE, isNotebookEntry, type PostMeta, type ProjectMeta } from '../lib/shared'
 import { getAllPosts } from '../lib/posts'
 import { getAllProjects } from '../lib/projects'
 import styles from './page.module.css'
@@ -7,7 +7,7 @@ import styles from './page.module.css'
 export const revalidate = 60 // ISR - revalidate every 60 seconds
 
 export default async function Home() {
-  const posts = (await getAllPosts()).slice(0, 3)
+  const posts = (await getAllPosts()).filter(post => !isNotebookEntry(post)).slice(0, 3)
   const projects = (await getAllProjects()).slice(0, 3)
 
   const paletteSwatches = TOPIC_PALETTE.map(topic => ({

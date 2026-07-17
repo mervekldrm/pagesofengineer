@@ -3,7 +3,7 @@
 import Link from 'next/link'
 import { Suspense, useEffect, useState } from 'react'
 import { useSearchParams } from 'next/navigation'
-import { TOPIC_PALETTE, inferTopicKey, topicLabelFromKey, type PostMeta, type TopicKey } from '../../lib/shared'
+import { TOPIC_PALETTE, inferTopicKey, isNotebookEntry, topicLabelFromKey, type PostMeta, type TopicKey } from '../../lib/shared'
 import FilterToolbar from '../../components/FilterToolbar'
 import styles from './page.module.css'
 
@@ -64,6 +64,7 @@ function BlogPageContent() {
     : selectedCategory || selectedTag
 
   const filteredPosts = posts.filter(post => {
+    if (isNotebookEntry(post)) return false
     const postTags = (post.tags || []).map(tag => normalize(tag))
     const tagMatch = !selectedTag || postTags.includes(normalizedSelectedTag)
     const categoryMatch = !selectedCategory || post.category === selectedCategory
@@ -125,7 +126,7 @@ function BlogPageContent() {
 
             {filteredPosts.length === 0 ? (
               <div className={styles.empty}>
-                <p>🔍 Seçilen filtrelere uygun yazı bulunamadı.</p>
+                <p>🔍 Seçilen filtrelere uygun blog yazısı bulunamadı.</p>
               </div>
             ) : (
               <>

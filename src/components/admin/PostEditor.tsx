@@ -12,6 +12,7 @@ interface Props {
 
 const EMOJIS = ['📝', '🧬', '☁️', '🧪', '🤖', '🔬', '💻', '📖', '🎵', '🔭', '🌱', '⚡', '🎯', '🚀', '💡']
 const CATEGORIES = [
+  { name: 'Notebook', emoji: '🗒️' },
   { name: 'Şiir', emoji: '✨' },
   { name: 'Doğa', emoji: '🌿' },
   { name: 'Gezi', emoji: '✈️' },
@@ -156,7 +157,14 @@ export default function PostEditor({ initialPost, isEdit }: Props) {
           <div className={styles.sideSection}>
             <label>Slug (URL)</label>
             <input type="text" value={slug} onChange={e => setSlug(e.target.value)} placeholder="rna-seq-pipeline" />
-            <p className={styles.hint}>pagesofengineer.com/blog/<strong>{slug || 'slug'}</strong></p>
+            <p className={styles.hint}>
+              pagesofengineer.com/{category === 'Notebook' ? 'notebook' : 'blog'}/<strong>{slug || 'slug'}</strong>
+            </p>
+          </div>
+          <div className={styles.sideSection}>
+            <label>Not İçi Görsel</label>
+            <p className={styles.hint}>Markdown ile notlarin arasina gorsel ekleyebilirsin:</p>
+            <code className={styles.miniCode}>![Gorsel aciklamasi](https://ornek.com/foto.jpg)</code>
           </div>
           <div className={styles.sideSection}>
             <label className={styles.checkLabel}>
@@ -188,7 +196,7 @@ export default function PostEditor({ initialPost, isEdit }: Props) {
               className={styles.contentInput}
               value={content}
               onChange={e => setContent(e.target.value)}
-              placeholder={`# Başlık\n\nYazına buradan başla... Markdown kullanabilirsin.\n\n## Alt başlık\n\nParagraf metni.\n\n\`\`\`python\n# Kod bloğu\nprint("Merhaba!")\n\`\`\``}
+              placeholder={`# Baslik\n\nYazina buradan basla... Markdown kullanabilirsin.\n\n## Alt baslik\n\nParagraf metni.\n\n![Gorsel aciklamasi](https://ornek.com/foto.jpg)\n\n\`\`\`python\n# Kod blogu\nprint("Merhaba!")\n\`\`\``}
             />
           )}
         </div>

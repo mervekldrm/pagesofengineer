@@ -74,6 +74,24 @@ function normalizeText(value: string): string {
     .trim()
 }
 
+export function isNotebookEntry(input: { category?: string; tags?: string[] }): boolean {
+  const normalizedCategory = normalizeText(input.category || '')
+  const normalizedTags = (input.tags || []).map(tag => normalizeText(tag))
+
+  const notebookCategoryKeywords = ['notebook', 'not', 'kisa not', 'notes']
+  const notebookTagKeywords = ['notebook', 'not', 'notes', 'quicknote', 'quick-note']
+
+  if (notebookCategoryKeywords.some(keyword => normalizedCategory.includes(keyword))) {
+    return true
+  }
+
+  if (normalizedTags.some(tag => notebookTagKeywords.includes(tag))) {
+    return true
+  }
+
+  return false
+}
+
 export function inferTopicKey(category?: string): TopicKey | undefined {
   const normalized = normalizeText(category || '')
   if (!normalized) return undefined

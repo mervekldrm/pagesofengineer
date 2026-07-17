@@ -8,6 +8,7 @@ export default function Navbar() {
   const links = [
     { href: '/', label: 'Ana Sayfa' },
     { href: '/blog', label: 'Blog' },
+    { href: '/notebook', label: 'Notebook' },
     { href: '/projects', label: 'Projeler' },
     { href: '/about', label: 'Hakkımda' },
     { href: '/contact', label: 'İletişim' },
@@ -21,16 +22,19 @@ export default function Navbar() {
           <span>Pages of Engineer</span>
         </Link>
         <ul className={styles.links}>
-          {links.map(l => (
-            <li key={l.href}>
-              <Link
-                href={l.href}
-                className={`${styles.link} ${path === l.href ? styles.active : ''}`}
-              >
-                {l.label}
-              </Link>
-            </li>
-          ))}
+          {links.map(l => {
+            const isActive = l.href === '/' ? path === '/' : path === l.href || path.startsWith(`${l.href}/`)
+            return (
+              <li key={l.href}>
+                <Link
+                  href={l.href}
+                  className={`${styles.link} ${isActive ? styles.active : ''}`}
+                >
+                  {l.label}
+                </Link>
+              </li>
+            )
+          })}
         </ul>
       </div>
     </nav>
