@@ -2,4 +2,20 @@
   - Local:        http://localhost:3002
 
  ✓ Starting...
- ✓ Ready in 1122ms
+ ✓ Ready in 1429ms
+ ○ Compiling /notebook ...
+ ✓ Compiled /notebook in 1635ms (658 modules)
+ GET /notebook 200 in 1814ms
+ ✓ Compiled / in 185ms (635 modules)
+ GET / 200 in 301ms
+ ✓ Compiled /icon.svg in 89ms (405 modules)
+ GET /icon.svg?3eb6510ada11d2ec 200 in 124ms
+ ✓ Compiled /admin in 341ms (769 modules)
+ GET /admin 307 in 433ms
+ ✓ Compiled /admin/login in 112ms (778 modules)
+ GET /admin/login 200 in 167ms
+ ✓ Compiled /api/auth in 118ms (532 modules)
+ POST /api/auth 401 in 164ms
+ POST /api/auth 401 in 6ms
+ POST /api/auth 401 in 5ms
+ POST /api/auth 401 in 5ms
