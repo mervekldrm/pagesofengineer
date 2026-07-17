@@ -1,0 +1,17 @@
+[TypeError: fetch failed] {
+  [cause]: AggregateError [EACCES]: 
+      at internalConnectMultiple (node:net:1194:18)
+      at afterConnectMultiple (node:net:1784:7) {
+    code: 'EACCES',
+    [errors]: [
+      [Error], [Error], [Error],
+      [Error], [Error], [Error],
+      [Error], [Error], [Error],
+      [Error], [Error], [Error],
+      [Error], [Error], [Error],
+      [Error], [Error], [Error],
+      [Error], [Error], [Error],
+      [Error], [Error], [Error]
+    ]
+  }
+}

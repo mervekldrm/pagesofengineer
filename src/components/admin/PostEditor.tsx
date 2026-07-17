@@ -1,5 +1,5 @@
 'use client'
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { marked } from 'marked'
 import { resolveCoverImageUrl, slugify, type Post } from '../../lib/shared'
@@ -41,6 +41,8 @@ export default function PostEditor({ initialPost, isEdit }: Props) {
   const [saving, setSaving] = useState(false)
   const [preview, setPreview] = useState(false)
   const [error, setError] = useState('')
+  const contentInputRef = useRef<HTMLTextAreaElement>(null)
+  const imageInputRef = useRef<HTMLInputElement>(null)
 
   useEffect(() => {
     if (!isEdit && title) {
@@ -100,6 +102,51 @@ export default function PostEditor({ initialPost, isEdit }: Props) {
   }
 
   const previewHtml = marked.parse(content) as string
+
+  function insertAtCursor(text: string) {
+    const input = contentInputRef.current
+    const start = input?.selectionStart ?? content.length
+    const end = input?.selectionEnd ?? content.length
+    const needsLeadingBreak = start > 0 && content[start - 1] !== '\n'
+    const needsTrailingBreak = end < content.length && content[end] !== '\n'
+    const value = `${content.slice(0, start)}${needsLeadingBreak ? '\n\n' : ''}${text}${needsTrailingBreak ? '\n\n' : ''}${content.slice(end)}`
+
+    setContent(value)
+    requestAnimationFrame(() => {
+      const cursorPosition = start + (needsLeadingBreak ? 2 : 0) + text.length
+      input?.focus()
+      input?.setSelectionRange(cursorPosition, cursorPosition)
+    })
+  }
+
+  function selectImage() {
+    imageInputRef.current?.click()
+  }
+
+  function insertImage(event: React.ChangeEvent<HTMLInputElement>) {
+    const [file] = Array.from(event.target.files || [])
+    event.target.value = ''
+    if (!file) return
+    if (!file.type.startsWith('image/')) {
+      setError('Lütfen bir görsel dosyası seçin.')
+      return
+    }
+    if (file.size > 5 * 1024 * 1024) {
+      setError('Görsel en fazla 5 MB olabilir.')
+      return
+    }
+
+    const reader = new FileReader()
+    reader.onload = () => {
+      const imageUrl = reader.result
+      if (typeof imageUrl !== 'string') return
+      const altText = file.name.replace(/\.[^/.]+$/, '').replace(/[-_]+/g, ' ')
+      insertAtCursor(`![${altText}](${imageUrl})`)
+      setError('')
+    }
+    reader.onerror = () => setError('Görsel okunamadı. Lütfen tekrar deneyin.')
+    reader.readAsDataURL(file)
+  }
 
   return (
     <div className={styles.editor}>
@@ -192,12 +239,29 @@ export default function PostEditor({ initialPost, isEdit }: Props) {
           {preview ? (
             <div className={`${styles.preview} prose`} dangerouslySetInnerHTML={{ __html: previewHtml }} />
           ) : (
-            <textarea
-              className={styles.contentInput}
-              value={content}
-              onChange={e => setContent(e.target.value)}
-              placeholder={`# Baslik\n\nYazina buradan basla... Markdown kullanabilirsin.\n\n## Alt baslik\n\nParagraf metni.\n\n![Gorsel aciklamasi](https://ornek.com/foto.jpg)\n\n\`\`\`python\n# Kod blogu\nprint("Merhaba!")\n\`\`\``}
-            />
+            <div className={styles.contentEditor}>
+              <div className={styles.contentActions}>
+                <button type="button" onClick={selectImage} className={styles.imageButton}>
+                  + Fotoğraf ekle
+                </button>
+                <span>İmlecin bulunduğu yere eklenir · En fazla 5 MB</span>
+                <input
+                  ref={imageInputRef}
+                  type="file"
+                  accept="image/*"
+                  onChange={insertImage}
+                  className={styles.fileInput}
+                  aria-label="Not içine fotoğraf ekle"
+                />
+              </div>
+              <textarea
+                ref={contentInputRef}
+                className={styles.contentInput}
+                value={content}
+                onChange={e => setContent(e.target.value)}
+                placeholder={`# Baslik\n\nYazina buradan basla... Markdown kullanabilirsin.\n\n## Alt baslik\n\nParagraf metni.\n\n![Gorsel aciklamasi](https://ornek.com/foto.jpg)\n\n\`\`\`python\n# Kod blogu\nprint("Merhaba!")\n\`\`\``}
+              />
+            </div>
           )}
         </div>
       </div>
